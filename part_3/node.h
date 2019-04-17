@@ -12,8 +12,13 @@ typedef enum {
 Node NodeGetNext(Node node);
 MapKeyElement NodeGetKey(Node node);
 MapDataElement NodeGetValue(Node node);
-NodeResult NodeAdd(Node node);
+NodeResult NodeAdd(Node node, MapKeyElement key, MapDataElement data);
 NodeResult NodeRemove(MapKeyElement key);
 Node NodeCreate(MapKeyElement key, MapDataElement data);
 NodeResult NodeDestroy(Node node);
+typedef MapDataElement(*copyNodeDataElements)(MapDataElement);
+typedef MapKeyElement(*copyNodeKeyElements)(MapKeyElement);
+typedef void(*freeNodeDataElements)(MapDataElement);
+typedef void(*freeNodeKeyElements)(MapKeyElement);
+typedef int(*compareNodeKeyElements)(MapKeyElement, MapKeyElement);
 #endif //PART_3_NODE_H
