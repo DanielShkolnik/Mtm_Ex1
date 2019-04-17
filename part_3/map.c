@@ -1,4 +1,10 @@
-//
-// Created by danie on 17/04/2019.
-//
+#include "map.h"
+#include <stdlib.h>
+#include <assert.h>
+#include <stdio.h>
+#include <stdbool.h>
+
+struct Map_t {
+    MapDataElement
+};
 
