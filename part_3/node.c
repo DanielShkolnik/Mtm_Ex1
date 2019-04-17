@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-struct Node_t {
+struct Node_t{
     MapKeyElement key;
     MapDataElement data;
     struct Node_t *next;
