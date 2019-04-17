@@ -11,12 +11,12 @@ typedef enum {
 
 Node NodeGetNext(Node node);
 MapKeyElement NodeGetKey(Node node);
-MapDataElement NodeGetValue(Node node);
-Node NodeSetNext(Node node);
-MapKeyElement NodeSetKey(Node node);
-MapDataElement NodeSetValue(Node node);
-NodeResult NodeAdd(Node node, MapKeyElement key, MapDataElement data);
-NodeResult NodeRemove(MapKeyElement key);
+MapDataElement NodeGetData(Node node);
+Node NodeSetNext(Node node); // need implement in node.c
+MapKeyElement NodeSetKey(Node node); // need implement in node.c
+MapDataElement NodeSetData(Node node); // need implement in node.c
+NodeResult NodeAdd(Node node, MapKeyElement key, MapDataElement data); // need fix
+NodeResult NodeRemove(Node node ,MapKeyElement key);
 Node NodeCreate(MapKeyElement key,
                 MapDataElement data,
                 copyMapDataElements copyDataElement,
@@ -24,10 +24,10 @@ Node NodeCreate(MapKeyElement key,
                 freeMapDataElements freeDataElement,
                 freeMapKeyElements freeKeyElement,
                 compareMapKeyElements compareKeyElements);
-NodeResult NodeDestroy(Node node);
-typedef MapDataElement(*copyNodeDataElements)(MapDataElement);
-typedef MapKeyElement(*copyNodeKeyElements)(MapKeyElement);
-typedef void(*freeNodeDataElements)(MapDataElement);
-typedef void(*freeNodeKeyElements)(MapKeyElement);
-typedef int(*compareNodeKeyElements)(MapKeyElement, MapKeyElement);
+NodeResult NodeDestroy(Node node); // need implement in node.c
+typedef MapDataElement(*copyNodeDataElements)(MapDataElement); // need implement in node.c
+typedef MapKeyElement(*copyNodeKeyElements)(MapKeyElement); // need implement in node.c
+typedef void(*freeNodeDataElements)(MapDataElement); // need implement in node.c
+typedef void(*freeNodeKeyElements)(MapKeyElement); // need implement in node.c
+typedef int(*compareNodeKeyElements)(MapKeyElement, MapKeyElement); // need implement in node.c
 #endif //PART_3_NODE_H

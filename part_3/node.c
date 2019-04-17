@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+static NodeResult freeNode (Node node);
+
 struct Node_t{
     MapKeyElement key;
     MapDataElement data;
@@ -37,6 +39,21 @@ NodeResult NodeAdd(Node node, MapKeyElement key, MapDataElement data) {
         return NODE_OUT_OF_MEMORY;
     }
     return NODE_SUCCESS;
+}
+
+NodeResult NodeRemove(Node node ,MapKeyElement key) {
+    while (node->next!=NULL) {
+        if ((node->next)->key==key) {
+            node->next=(node->next)->next;
+            freeNode(node->next);
+        }
+    }
+}
+
+static NodeResult freeNode (Node node){
+    node->freeData(node->data);
+    node->freeKey(node->key);
+    free(node);
 }
 
 #include "node.h"
