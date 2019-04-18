@@ -86,4 +86,40 @@ Map mapCopy(Map map){
     return newMap;
 }
 
+bool mapContains(Map map, MapKeyElement element) {
+    if (map==NULL || element==NULL) return false;
+    Node currentNode=NodeGetNext(map->listHead);
+    while (currentNode!=NULL) {
+        if (map->compareKeys(NodeGetKey(currentNode),element)) return true;
+        currentNode=NodeGetNext(currentNode);
+    }
+    return false;
+}
+
+MapDataElement mapGet(Map map, MapKeyElement keyElement) {
+    if (map==NULL || keyElement==NULL) return NULL;
+    Node currentNode=NodeGetNext(map->listHead);
+    while (currentNode!=NULL) {
+        if (map->compareKeys(NodeGetKey(currentNode),keyElement)) {
+            return NodeGetData(currentNode);
+        }
+        currentNode=NodeGetNext(currentNode);
+    }
+    return NULL;
+}
+
+MapResult mapRemove(Map map, MapKeyElement keyElement) {
+    if (map==NULL || keyElement==NULL) return MAP_NULL_ARGUMENT;
+    if ((mapContains(map, keyElement))==false) return MAP_ITEM_DOES_NOT_EXIST;
+    NodeResult result=NodeRemove(map->listHead,keyElement);
+    if (result==NODE_NULL_ARGUMENT) return MAP_NULL_ARGUMENT;
+    return MAP_SUCCESS;
+}
+
+MapResult mapClear(Map map) {
+    if (map==NULL) return MAP_NULL_ARGUMENT;
+    NodeResult result=NodeDestroy(map->listHead);
+    freeMapKeyElements(map->iterator);
+    return MAP_SUCCESS;
+}
 
