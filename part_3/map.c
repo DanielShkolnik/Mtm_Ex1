@@ -153,8 +153,8 @@ MapResult mapRemove(Map map, MapKeyElement keyElement) {
 
 MapResult mapClear(Map map) {
     if (map==NULL) return MAP_NULL_ARGUMENT;
-    NodeResult result=NodeDestroy(map->listHead);
-    freeMapKeyElements(map->iterator);
+    NodeDestroy(map->listHead);
+    map->freeKey(map->iterator);
     return MAP_SUCCESS;
 }
 
