@@ -1,6 +1,8 @@
 #ifndef PART_3_NODE_H
 #define PART_3_NODE_H
 
+#include "map.h"
+
 typedef struct Node_t *Node;
 
 typedef enum {

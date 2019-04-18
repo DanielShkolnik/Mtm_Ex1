@@ -63,7 +63,7 @@ NodeResult NodeRemove(Node node ,MapKeyElement key) {
     while (node->next!=NULL) {
         if ((node->next)->key==key) {
             node->next=(node->next)->next;
-            return freeNode(node->next);
+            freeNode(node->next);
         }
     }
 }
@@ -72,17 +72,6 @@ static NodeResult freeNode (Node node){
     node->freeData(node->data);
     node->freeKey(node->key);
     free(node);
-    return NODE_SUCCESS;
 }
 
-NodeResult NodeDestroy(Node head){
-    if(head==NULL) return NODE_NULL_ARGUMENT;
-
-    while (head!=NULL){
-        Node tmp = head;
-        head = head->next;
-        freeNode(tmp);
-    }
-    return NODE_SUCCESS;
-}
 #include "node.h"
