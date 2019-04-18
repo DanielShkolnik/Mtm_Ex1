@@ -86,4 +86,39 @@ Map mapCopy(Map map){
     return newMap;
 }
 
+MapResult mapPut(Map map, MapKeyElement keyElement, MapDataElement dataElement){
+    Node current = NodeGetNext(map->listHead);
+    while(NodeGetNext(current) !=NULL){
+        if(map->compareKeys(NodeGetKey(current),keyElement)== 0){
+            NodeSetData(current,dataElement);
+            return MAP_SUCCESS;
+        }
+        current = NodeGetNext(current);
+    }
+    if(map->compareKeys(NodeGetKey(current),keyElement)== 0){
+        NodeSetData(current,dataElement);
+        return MAP_SUCCESS;
+    }
+    else{
+        return (MapResult)NodeAdd(current,keyElement,dataElement,map->copyData,map->copyKey,map->freeData,map->freeKey,map->compareKeys);
+    }
+}
+
+MapKeyElement mapGetFirst(Map map){
+    Node first = NodeGetNext(map->listHead);
+    if(first==NULL){
+        return NULL;
+    }
+    map->iterator = NodeGetKey(first);
+    return NodeGetKey(first);
+}
+
+MapKeyElement mapGetNext(Map map){
+    if(map->iterator==NULL){
+        return NULL;
+    }
+    Node tmp = NodeGetNode(NodeGetNext(map->listHead),map->iterator);
+    return NodeGetKey(NodeGetNext(tmp));
+}
+
 

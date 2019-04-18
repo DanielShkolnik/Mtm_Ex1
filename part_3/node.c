@@ -128,5 +128,14 @@ Node NodeCopy(Node node){
     }
     return head;
 }
+Node NodeGetNode(Node node, MapKeyElement key){
+    while (node!=NULL){
+        if(node->compareKeys(node->key,key)==0){
+            return node;
+        }
+        node = node->next;
+    }
+    return NULL;
+}
 
 #include "node.h"
