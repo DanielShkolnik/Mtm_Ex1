@@ -91,11 +91,15 @@ NodeResult NodeAdd(Node node, MapKeyElement key,
 
 NodeResult NodeRemove(Node node ,MapKeyElement key) {
     if (node==NULL || key==NULL) return NODE_NULL_ARGUMENT;
-    while (node->next!=NULL) {
-        if ((node->next)->key==key) {
-            node->next=(node->next)->next;
-            freeNode(node->next);
+    Node prevNode = node;
+    Node currentNode = node->next;
+    while (currentNode!=NULL){
+        if(currentNode->compareKeys(currentNode->key,key)==0){
+            prevNode->next = currentNode->next;
+            freeNode(currentNode);
         }
+        prevNode = currentNode;
+        currentNode = currentNode->next;
     }
     return NODE_SUCCESS;
 }

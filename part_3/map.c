@@ -146,8 +146,7 @@ MapDataElement mapGet(Map map, MapKeyElement keyElement) {
 MapResult mapRemove(Map map, MapKeyElement keyElement) {
     if (map==NULL || keyElement==NULL) return MAP_NULL_ARGUMENT;
     if ((mapContains(map, keyElement))==false) return MAP_ITEM_DOES_NOT_EXIST;
-    NodeResult result=NodeRemove(map->listHead,keyElement);
-    if (result==NODE_NULL_ARGUMENT) return MAP_NULL_ARGUMENT;
+    NodeRemove(map->listHead,keyElement);
     return MAP_SUCCESS;
 }
 

@@ -141,7 +141,7 @@ bool improveTestMapCreateDestroy() {
 bool improveTestMapAddAndSize() {
     Map map = mapCreate(copyDataChar, copyKeyInt, freeChar, freeInt,
                         compareInts);
-    for (int i = 1; i < 1000; ++i) {
+    for (int i = 1; i < 100; ++i) {
         char j = (char) i;
         ++j;
         ASSERT_TEST(mapPut(map, &i, &j) == MAP_SUCCESS);
@@ -173,7 +173,7 @@ bool improveTestMapAddAndSize() {
 bool testMapRemove() {
     Map map = mapCreate(copyDataChar, copyKeyInt, freeChar, freeInt,
                         compareInts);
-    for (int i = 1; i < 1000; ++i) {
+    for (int i = 1; i < 10; ++i) {
         char j = (char) i;
         ++j;
         ASSERT_TEST(mapPut(map, &i, &j) == MAP_SUCCESS);
