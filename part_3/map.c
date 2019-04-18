@@ -95,12 +95,14 @@ MapResult mapPut(Map map, MapKeyElement keyElement, MapDataElement dataElement){
         }
         current = NodeGetNext(current);
     }
-    if(map->compareKeys(NodeGetKey(current),keyElement)== 0){
+    if(current!=NULL && map->compareKeys(NodeGetKey(current),keyElement)== 0){
         NodeSetData(current,dataElement);
         return MAP_SUCCESS;
     }
     else {
-        return (MapResult)NodeAdd(current,keyElement,dataElement,map->copyData,map->copyKey,map->freeData,map->freeKey,map->compareKeys);
+        NodeResult result = NodeAdd(map->listHead,keyElement,dataElement,map->copyData,map->copyKey,map->freeData,map->freeKey,map->compareKeys);
+        if(result == NODE_OUT_OF_MEMORY) return MAP_OUT_OF_MEMORY;
+        return MAP_SUCCESS;
     }
 }
 
