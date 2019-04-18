@@ -15,7 +15,13 @@ MapDataElement NodeGetData(Node node);
 Node NodeSetNext(Node node); // need implement in node.c
 MapKeyElement NodeSetKey(Node node); // need implement in node.c
 MapDataElement NodeSetData(Node node); // need implement in node.c
-NodeResult NodeAdd(Node node, MapKeyElement key, MapDataElement data); // need fix
+NodeResult NodeAdd(Node node, MapKeyElement key,
+                   MapDataElement data,
+                   copyMapDataElements copyDataElement,
+                   copyMapKeyElements copyKeyElement,
+                   freeMapDataElements freeDataElement,
+                   freeMapKeyElements freeKeyElement,
+                   compareMapKeyElements compareKeyElements); // need fix
 NodeResult NodeRemove(Node node ,MapKeyElement key);
 Node NodeCreate(MapKeyElement key,
                 MapDataElement data,

@@ -30,11 +30,17 @@ MapDataElement NodeGetdata(Node node) {
     return node->data;
 }
 
-NodeResult NodeAdd(Node node, MapKeyElement key, MapDataElement data) {
+NodeResult NodeAdd(Node node, MapKeyElement key,
+                   MapDataElement data,
+                   copyMapDataElements copyDataElement,
+                   copyMapKeyElements copyKeyElement,
+                   freeMapDataElements freeDataElement,
+                   freeMapKeyElements freeKeyElement,
+                   compareMapKeyElements compareKeyElements) {
     while (node->next != Null) {
         node = node->next;
     }
-    node->next = NodeCreate(key, data);
+    node->next = NodeCreate( key, data, copyDataElement, copyKeyElement, freeDataElement, freeKeyElement, compareKeyElements);
     if (node->next == NULL) {
         return NODE_OUT_OF_MEMORY;
     }
