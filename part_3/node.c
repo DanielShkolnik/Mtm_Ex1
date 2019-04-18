@@ -60,6 +60,17 @@ static NodeResult freeNode (Node node){
     node->freeData(node->data);
     node->freeKey(node->key);
     free(node);
+    return NODE_SUCCESS;
 }
 
+NodeResult NodeDestroy(Node head){
+    if(head==NULL) return NODE_NULL_ARGUMENT;
+
+    while (head!=NULL){
+        Node tmp = head;
+        head = head->next;
+        freeNode(tmp);
+    }
+    return NODE_SUCCESS;
+}
 #include "node.h"

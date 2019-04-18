@@ -30,7 +30,7 @@ Node NodeCreate(MapKeyElement key,
                 freeMapDataElements freeDataElement,
                 freeMapKeyElements freeKeyElement,
                 compareMapKeyElements compareKeyElements);
-NodeResult NodeDestroy(Node node); // need implement in node.c
+NodeResult NodeDestroy(Node head);
 typedef MapDataElement(*copyNodeDataElements)(MapDataElement); // need implement in node.c
 typedef MapKeyElement(*copyNodeKeyElements)(MapKeyElement); // need implement in node.c
 typedef void(*freeNodeDataElements)(MapDataElement); // need implement in node.c
