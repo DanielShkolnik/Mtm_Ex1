@@ -51,7 +51,7 @@ NodeResult NodeRemove(Node node ,MapKeyElement key) {
     while (node->next!=NULL) {
         if ((node->next)->key==key) {
             node->next=(node->next)->next;
-            freeNode(node->next);
+            return freeNode(node->next);
         }
     }
 }
