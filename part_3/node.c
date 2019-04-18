@@ -18,6 +18,27 @@ struct Node_t{
     compareNodeKeyElements compareKeys;
 };
 
+Node NodeCreate(MapKeyElement key,
+                MapDataElement data,
+                copyMapDataElements copyDataElement,
+                copyMapKeyElements copyKeyElement,
+                freeMapDataElements freeDataElement,
+                freeMapKeyElements freeKeyElement,
+                compareMapKeyElements compareKeyElements){
+    Node ptr = malloc(sizeof(*ptr));
+    if(!ptr){
+        return NULL;
+    }
+    ptr->key = copyKeyElement(key);
+    ptr->data= copyDataElement(data);
+    ptr->copyKey = copyKeyElement;
+    ptr->copyData = copyDataElement;
+    ptr->freeData = freeDataElement;
+    ptr->freeKey = freeKeyElement;
+    ptr->compareKeys = compareKeyElements;
+    ptr->next = NULL;
+}
+
 Node NodeGetNext(Node node) {
     if (node==NULL) return NULL;
     return node->next;
