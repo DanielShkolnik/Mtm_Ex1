@@ -94,27 +94,28 @@ bool testMapGet() {
 bool testIterator() {
     Map map = mapCreate(copyDataChar, copyKeyInt, freeChar, freeInt,
                         compareInts);
-    for (int i = 1; i < 400; ++i) {
+    for (int i = 1; i < 40; ++i) {
         char j = (char) i;
         ++j;
         ASSERT_TEST(mapPut(map, &i, &j) == MAP_SUCCESS);
     }
 
-    for (int i = 800; i >= 400; --i) {
+    for (int i = 80; i >= 40; --i) {
         char j = (char) i;
         ++j;
         ASSERT_TEST(mapPut(map, &i, &j) == MAP_SUCCESS);
     }
 
-    for (int i = 801; i < 1000; ++i) {
+    for (int i = 81; i < 100; ++i) {
         char j = (char) i;
         ++j;
         ASSERT_TEST(mapPut(map, &i, &j) == MAP_SUCCESS);
     }
+
 
     int i = 1;
     MAP_FOREACH(int *, iter, map) {
-      ASSERT_TEST(*iter == i);
+        ASSERT_TEST(*iter == i);
       i++;
     }
 

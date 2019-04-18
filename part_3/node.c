@@ -75,9 +75,14 @@ NodeResult NodeAdd(Node node, MapKeyElement key,
                    compareMapKeyElements compareKeyElements) {
     if (node==NULL || data==NULL || key==NULL) return NODE_NULL_ARGUMENT;
     while (node->next != NULL) {
+        if((node->next)->compareKeys((node->next)->key,key)>0){
+            break;
+        }
         node = node->next;
     }
+    Node tmp = node->next;
     node->next = NodeCreate( key, data, copyDataElement, copyKeyElement, freeDataElement, freeKeyElement, compareKeyElements);
+    (node->next)->next = tmp;
     if (node->next == NULL) {
         return NODE_OUT_OF_MEMORY;
     }
