@@ -118,6 +118,7 @@ MapKeyElement mapGetNext(Map map){
         return NULL;
     }
     Node tmp = NodeGetNode(NodeGetNext(map->listHead),map->iterator);
+    map->iterator = NodeGetKey(NodeGetNext(tmp));
     return NodeGetKey(NodeGetNext(tmp));
 }
 
