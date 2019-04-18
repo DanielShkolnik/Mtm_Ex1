@@ -87,6 +87,7 @@ Map mapCopy(Map map){
 }
 
 MapResult mapPut(Map map, MapKeyElement keyElement, MapDataElement dataElement){
+    if (map==NULL || keyElement==NULL || dataElement==NULL) return MAP_NULL_ARGUMENT;
     Node current = NodeGetNext(map->listHead);
     while(NodeGetNext(current) !=NULL){
         if(map->compareKeys(NodeGetKey(current),keyElement)== 0){
