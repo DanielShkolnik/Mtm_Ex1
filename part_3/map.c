@@ -66,3 +66,13 @@ void mapDestroy(Map map){
     map->freeKey(map->iterator);
 }
 
+int mapGetSize(Map map) {
+    if (map==NULL) return 0;
+    Node currentNode=map->listHead;
+    int counter=0;
+    while (currentNode!=NULL) {
+      counter++;
+      currentNode=NodeGetNext(currentNode);
+    }
+    return counter;
+}
