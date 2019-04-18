@@ -76,3 +76,14 @@ int mapGetSize(Map map) {
     }
     return counter;
 }
+
+Map mapCopy(Map map){
+    if (map==NULL) return  NULL;
+    Map newMap;
+    newMap=mapCreate(map->copyData,map->copyKey,map->freeData,map->freeKey,map->compareKeys);
+    newMap->iterator=NULL;
+    newMap->listHead=NodeCopy(map->listHead);
+    return newMap;
+}
+
+
