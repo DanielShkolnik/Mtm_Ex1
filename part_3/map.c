@@ -61,3 +61,8 @@ static Node creatHead(copyMapDataElements copyDataElement,
     return node;
 }
 
+void mapDestroy(Map map){
+    NodeDestroy(map->listHead);
+    map->freeKey(map->iterator);
+}
+
