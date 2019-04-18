@@ -10,7 +10,7 @@ typedef enum {
     NODE_OUT_OF_MEMORY,
     NODE_NULL_ARGUMENT,
 } NodeResult;
-
+//test
 Node NodeGetNext(Node node);
 MapKeyElement NodeGetKey(Node node);
 MapDataElement NodeGetData(Node node);
