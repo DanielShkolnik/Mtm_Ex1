@@ -12,16 +12,15 @@ typedef enum {
 Node NodeGetNext(Node node);
 MapKeyElement NodeGetKey(Node node);
 MapDataElement NodeGetData(Node node);
-Node NodeSetNext(Node node); // need implement in node.c
-MapKeyElement NodeSetKey(Node node); // need implement in node.c
-MapDataElement NodeSetData(Node node); // need implement in node.c
+NodeResult NodeSetKey(Node node, MapKeyElement key);
+NodeResult NodeSetData(Node node, MapDataElement data);
 NodeResult NodeAdd(Node node, MapKeyElement key,
                    MapDataElement data,
                    copyMapDataElements copyDataElement,
                    copyMapKeyElements copyKeyElement,
                    freeMapDataElements freeDataElement,
                    freeMapKeyElements freeKeyElement,
-                   compareMapKeyElements compareKeyElements); // need fix
+                   compareMapKeyElements compareKeyElements);
 NodeResult NodeRemove(Node node ,MapKeyElement key);
 Node NodeCreate(MapKeyElement key,
                 MapDataElement data,
@@ -30,7 +29,7 @@ Node NodeCreate(MapKeyElement key,
                 freeMapDataElements freeDataElement,
                 freeMapKeyElements freeKeyElement,
                 compareMapKeyElements compareKeyElements);
-NodeResult NodeDestroy(Node head);
+NodeResult NodeDestroy(Node node);
 typedef MapDataElement(*copyNodeDataElements)(MapDataElement); // need implement in node.c
 typedef MapKeyElement(*copyNodeKeyElements)(MapKeyElement); // need implement in node.c
 typedef void(*freeNodeDataElements)(MapDataElement); // need implement in node.c
