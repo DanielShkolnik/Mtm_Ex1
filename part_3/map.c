@@ -61,3 +61,13 @@ static Node creatHead(copyMapDataElements copyDataElement,
     return node;
 }
 
+int mapGetSize(Map map) {
+    if (map==NULL) return 0;
+    Node currentNode=map->listHead;
+    int counter=0;
+    while (currentNode!=NULL) {
+      counter++;
+      currentNode=NodeGetNext(currentNode);
+    }
+    return counter;
+}
