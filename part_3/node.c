@@ -61,7 +61,7 @@ MapKeyElement NodeGetKey(Node node) {
     return node->key;
 }
 
-MapDataElement NodeGetdata(Node node) {
+MapDataElement NodeGetData(Node node) {
     if (node==NULL) return NULL;
     return node->data;
 }
