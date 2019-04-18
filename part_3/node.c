@@ -49,7 +49,7 @@ NodeResult NodeAdd(Node node, MapKeyElement key,
                    freeMapDataElements freeDataElement,
                    freeMapKeyElements freeKeyElement,
                    compareMapKeyElements compareKeyElements) {
-    while (node->next != Null) {
+    while (node->next != NULL) {
         node = node->next;
     }
     node->next = NodeCreate( key, data, copyDataElement, copyKeyElement, freeDataElement, freeKeyElement, compareKeyElements);
