@@ -19,6 +19,7 @@ struct Node_t{
 };
 
 Node NodeGetNext(Node node) {
+    if (node==NULL) return NULL;
     return node->next;
 }
 
@@ -35,10 +36,12 @@ NodeResult NodeSetData(Node node, MapDataElement data) {
 }
 
 MapKeyElement NodeGetKey(Node node) {
+    if (node==NULL) return NULL;
     return node->key;
 }
 
 MapDataElement NodeGetdata(Node node) {
+    if (node==NULL) return NULL;
     return node->data;
 }
 
@@ -49,6 +52,7 @@ NodeResult NodeAdd(Node node, MapKeyElement key,
                    freeMapDataElements freeDataElement,
                    freeMapKeyElements freeKeyElement,
                    compareMapKeyElements compareKeyElements) {
+    if (node==NULL || data==NULL || key==NULL) return NODE_NULL_ARGUMENT;
     while (node->next != NULL) {
         node = node->next;
     }
@@ -60,23 +64,25 @@ NodeResult NodeAdd(Node node, MapKeyElement key,
 }
 
 NodeResult NodeRemove(Node node ,MapKeyElement key) {
+    if (node==NULL || key==NULL) return NODE_NULL_ARGUMENT;
     while (node->next!=NULL) {
         if ((node->next)->key==key) {
             node->next=(node->next)->next;
             freeNode(node->next);
         }
     }
+    return NODE_SUCCESS;
 }
 
 static NodeResult freeNode (Node node){
     node->freeData(node->data);
     node->freeKey(node->key);
     free(node);
+    return NODE_SUCCESS;
 }
 
 NodeResult NodeDestroy(Node head){
     if(head==NULL) return NODE_NULL_ARGUMENT;
-
     while (head!=NULL){
         Node tmp = head;
         head = head->next;
