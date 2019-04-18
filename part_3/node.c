@@ -71,7 +71,7 @@ NodeResult NodeRemove(Node node ,MapKeyElement key) {
 static NodeResult freeNode (Node node){
     node->freeData(node->data);
     node->freeKey(node->key);
-    free(node);
+    free(node);//adsasd
 }
 
 #include "node.h"
