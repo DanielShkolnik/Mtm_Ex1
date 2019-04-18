@@ -68,7 +68,7 @@ void mapDestroy(Map map){
 
 int mapGetSize(Map map) {
     if (map==NULL) return 0;
-    Node currentNode=map->listHead;
+    Node currentNode=NodeGetNext(map->listHead);
     int counter=0;
     while (currentNode!=NULL) {
       counter++;
@@ -99,7 +99,7 @@ MapResult mapPut(Map map, MapKeyElement keyElement, MapDataElement dataElement){
         NodeSetData(current,dataElement);
         return MAP_SUCCESS;
     }
-    else{
+    else {
         return (MapResult)NodeAdd(current,keyElement,dataElement,map->copyData,map->copyKey,map->freeData,map->freeKey,map->compareKeys);
     }
 }
@@ -123,19 +123,15 @@ MapKeyElement mapGetNext(Map map){
 
 bool mapContains(Map map, MapKeyElement element) {
     if (map==NULL || element==NULL) return false;
-    Node currentNode=NodeGetNext(map->listHead);
-    while (currentNode!=NULL) {
-        if (map->compareKeys(NodeGetKey(currentNode),element)) return true;
-        currentNode=NodeGetNext(currentNode);
-    }
-    return false;
+    if (mapGet(map,element)==NULL) return false;
+    return true;
 }
 
 MapDataElement mapGet(Map map, MapKeyElement keyElement) {
     if (map==NULL || keyElement==NULL) return NULL;
     Node currentNode=NodeGetNext(map->listHead);
     while (currentNode!=NULL) {
-        if (map->compareKeys(NodeGetKey(currentNode),keyElement)) {
+        if ((map->compareKeys(NodeGetKey(currentNode),keyElement))==0) {
             return NodeGetData(currentNode);
         }
         currentNode=NodeGetNext(currentNode);
