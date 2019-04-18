@@ -112,4 +112,21 @@ NodeResult NodeDestroy(Node head){
     return NODE_SUCCESS;
 }
 
+Node NodeCopy(Node node){
+    if(node==NULL) return NULL;
+    Node new = NodeCreate(node->key,node->data,node->copyData,node->copyKey,node->freeData,node->freeKey,node->compareKeys);
+    Node head = new;
+    node = node->next;
+    while (node!=NULL){
+        new->next = NodeCreate(node->key,node->data,node->copyData,node->copyKey,node->freeData,node->freeKey,node->compareKeys);
+        if(new->next==NULL){
+            NodeDestroy(head);
+            return NULL;
+        }
+        new = new->next;
+        node = node->next;
+    }
+    return head;
+}
+
 #include "node.h"

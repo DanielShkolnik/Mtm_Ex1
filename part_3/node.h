@@ -32,6 +32,7 @@ Node NodeCreate(MapKeyElement key,
                 freeMapKeyElements freeKeyElement,
                 compareMapKeyElements compareKeyElements);
 NodeResult NodeDestroy(Node head);
+Node NodeCopy(Node node);
 typedef MapDataElement(*copyNodeDataElements)(MapDataElement);
 typedef MapKeyElement(*copyNodeKeyElements)(MapKeyElement);
 typedef void(*freeNodeDataElements)(MapDataElement);
