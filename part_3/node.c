@@ -22,6 +22,18 @@ Node NodeGetNext(Node node) {
     return node->next;
 }
 
+NodeResult NodeSetKey(Node node, MapKeyElement key) {
+    if (node==NULL || key==NULL) return NODE_NULL_ARGUMENT;
+    node->key=key;
+    return NODE_SUCCESS;
+}
+
+NodeResult NodeSetData(Node node, MapDataElement data) {
+    if (node==NULL || data==NULL) return NODE_NULL_ARGUMENT;
+    node->data=data;
+    return NODE_SUCCESS;
+}
+
 MapKeyElement NodeGetKey(Node node) {
     return node->key;
 }
