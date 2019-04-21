@@ -9,13 +9,13 @@ struct Judge_t{
 
 static void copyArray (int* votesCopy, int* votes);
 
-Judge judgeCreate(int id, char *name,int *votes){
+Judge judgeCreate(int id, const char *name,int *votes){
     Judge ptrJudge = malloc(sizeof(*ptrJudge));
     if(!ptrJudge){
         return NULL;
     }
     ptrJudge->id=id;
-    strcpy(ptrJudge->name, const name);
+    strcpy(ptrJudge->name,name);
     int* ptrVotes = malloc(sizeof(int)*JUDGE_NUMBER_OF_VOTES);
     if(!ptrVotes){
         return NULL;
