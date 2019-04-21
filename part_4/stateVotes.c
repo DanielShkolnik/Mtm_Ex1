@@ -16,6 +16,7 @@ StateVote stateVoteCreate(int stateId){
 }
 
 StateVote stateVoteCopy(StateVote stateVote){
+    if(!stateVote) return NULL;
     return stateVoteCreate(stateVote->stateId);
 }
 
