@@ -12,5 +12,5 @@ typedef struct State_t *State;
 State stateCreate(int id, const char* name, const char* song);
 State stateCopy(State state);
 void stateDestroy(State state);
-int stateCompate(State state1,State state2);
+int stateCompare(State state1,State state2);
 #endif //PART_4_STATE_H

@@ -43,6 +43,6 @@ void stateDestroy(State state){
     setDestroy(state->votes);
     free(state);
 }
-int stateCompate(State state1,State state2){
+int stateCompare(State state1,State state2){
     return state1->id - state2->id;
 }
