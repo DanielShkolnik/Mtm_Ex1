@@ -1,17 +1,40 @@
 #include "eurovision.h"
 #include "state.h"
 #include "judge.h"
+#include "set.h"
+#include "list.h"
 #define JUDGE_NUMBER_OF_VOTES 10
 #define REMOVE_STATE "remove"
-
+#define ASCII_SMALL_A_VALUE 97
+#define ASCII_SMALL_Z_VALUE 122
+#define ASCII_SPACE_VALUE 32
 struct eurovision_t {
     Set states;
     Set judges;
 };
 
+static Judge getJudge(Set judges ,int judgeId) {
+    SET_FOREACH(Judge,iterator,judges) {
+        if (judgeCompareById(judgeGetId(iterator),judgeId)==0) return iterator;
+    }
+    return NULL;
+}
+
+static bool checkValidStateId(Set states ,const int* array) {
+    for (int i=0; i<JUDGE_NUMBER_OF_VOTES; i++) {
+        State tmp = stateCreate(array[i],REMOVE_STATE,REMOVE_STATE);
+        if (!setIsIn(states,tmp) {
+            stateDestroy(tmp);
+            return false;
+        }
+        stateDestroy(tmp);
+    }
+    return true;
+}
+
 static bool checkString(const char* str){
     for (int i=0; str[i]!=0 ; i++) {
-        if ((str[i]<97 || str[i]>122) || str[i]!=32) return false;
+        if ((str[i]<ASCII_SMALL_A_VALUE || str[i]>ASCII_SMALL_Z_VALUE) || str[i]!=ASCII_SPACE_VALUE) return false;
     }
     return true;
 }
@@ -66,6 +89,9 @@ EurovisionResult eurovisionAddJudge(Eurovision eurovision, int judgeId,
                                     const char *judgeName,
                                     int *judgeResults) {
     if (eurovision==NULL || judgeName==NULL || judgeResults==NULL) return EUROVISION_NULL_ARGUMENT;
+    if (judgeId<0 || !checkJudgeArray(judgeResults)) return EUROVISION_INVALID_ID;
+    if (!checkValidStateId(eurovision->states,judgeResults)) return EUROVISION_STATE_NOT_EXIST;
+    if (!checkString(judgeName)) return EUROVISION_INVALID_NAME;
     Judge newJudge = judgeCreate(judgeId,judgeName,judgeResults);
     if (newJudge==NULL) return EUROVISION_OUT_OF_MEMORY;
     SetResult setAddResult=setAdd(eurovision->judges,newJudge);
@@ -95,6 +121,14 @@ static void getJudgeIdsWhoVotedForState(Eurovision eurovision,State state,int* j
     SET_FOREACH(Judge,judge,eurovision->judges){
         for(int i=0;i<10;i++){
 
+EurovisionResult eurovisionRemoveJudge(Eurovision eurovision, int judgeId) {
+    if (eurovision==NULL) return EUROVISION_NULL_ARGUMENT;
+    if (judgeId<0) return EUROVISION_INVALID_ID;
+    Judge judgeToRemove=getJudge(eurovision->judges,judgeId);
+    if (judgeToRemove==NULL) return EUROVISION_JUDGE_NOT_EXIST;
+    setRemove(eurovision->judges,judgeToRemove);
+    return EUROVISION_SUCCESS;
+}
         }
     }
 }

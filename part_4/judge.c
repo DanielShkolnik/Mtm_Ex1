@@ -48,5 +48,10 @@ Judge judgeCopy(Judge judge){
     return judgeCreate(judge->id, judge->name, judge->votes);
 }
 
+int judgeCompareById(int judgeId1, int judgeId2) {
+    return judgeId1-judgeId2;
+}
 
-
+int judgeGetId(Judge judge) {
+    return judge->id;
+}
