@@ -57,5 +57,5 @@ int judgeGetId(Judge judge) {
 }
 
 int* judgeGetVotes(Judge judge) {
-    return judge->votes
+    return judge->votes;
 }

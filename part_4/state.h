@@ -13,4 +13,5 @@ State stateCreate(int id, const char* name, const char* song);
 State stateCopy(State state);
 void stateDestroy(State state);
 int stateCompare(State state1,State state2);
+int stateGetId(State state);
 #endif //PART_4_STATE_H

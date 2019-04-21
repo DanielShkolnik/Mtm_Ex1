@@ -115,13 +115,6 @@ EurovisionResult eurovisionAddState(Eurovision eurovision, int stateId,
     stateDestroy(tmp);
     return EUROVISION_SUCCESS;
 }
-static void getJudgeIdsWhoVotedForState(Eurovision eurovision,State state,int* judgesId){
-    SET_FOREACH(Judge,judge,eurovision->judges){
-        for(int i=0;i<10;i++){
-
-        }
-    }
-}
 
 EurovisionResult eurovisionRemoveJudge(Eurovision eurovision, int judgeId) {
     if (eurovision==NULL) return EUROVISION_NULL_ARGUMENT;
@@ -132,11 +125,41 @@ EurovisionResult eurovisionRemoveJudge(Eurovision eurovision, int judgeId) {
     return EUROVISION_SUCCESS;
 }
 
+
+static void getJudgeIdsWhoVotedForState(Eurovision eurovision,State state,Judge* judges){
+    int j = 0;
+    SET_FOREACH(Judge,judge,eurovision->judges){
+        int *votes = judgeGetVotes(judge);
+        for(int i=0;i<JUDGE_NUMBER_OF_VOTES;i++){
+            if(stateGetId(state)==votes[i]){
+                judges[j] = judge;
+                j++;
+            }
+        }
+    }
+}
+static void initializeJudgeArray(Judge* array, int length){
+    for(int i=0;i<length;i++){
+        array[i]=NULL;
+    }
+}
+
 EurovisionResult eurovisionRemoveState(Eurovision eurovision, int stateId){
     if(!eurovision) return EUROVISION_NULL_ARGUMENT;
     if(stateId<0) return EUROVISION_INVALID_ID;
     State tmp = stateCreate(stateId,REMOVE_STATE,REMOVE_STATE);
     SetResult result = setRemove(eurovision->states,tmp);
     if(result==SET_ITEM_DOES_NOT_EXIST) return EUROVISION_STATE_NOT_EXIST;
-
+    int size = setGetSize(eurovision->judges);
+    Judge* removeJudges = malloc(sizeof(Judge)*size);
+    initializeJudgeArray(removeJudges,size);
+    getJudgeIdsWhoVotedForState(eurovision,tmp,removeJudges);
+    for(int i=0;i<size;i++){
+        if(removeJudges[i]<0){
+            break;
+        }
+        setRemove(eurovision->judges,removeJudges[i]);
+    }
+    stateDestroy(tmp);
+    free(removeJudges);
 }

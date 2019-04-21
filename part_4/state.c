@@ -46,3 +46,7 @@ void stateDestroy(State state){
 int stateCompare(State state1,State state2){
     return state1->id - state2->id;
 }
+
+int stateGetId(State state){
+    return state->id;
+}
