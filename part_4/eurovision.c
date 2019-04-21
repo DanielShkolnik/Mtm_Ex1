@@ -11,7 +11,6 @@
 struct eurovision_t {
     Set states;
     Set judges;
-    List friendlyStates;
 };
 
 static Judge getJudge(Set judges ,int judgeId) {

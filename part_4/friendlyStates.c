@@ -33,7 +33,8 @@ int friendlyStatesCompare(FriendlyStates friendlyStates1, FriendlyStates friendl
 }
 
 FriendlyStates friendlyStatesCopy(FriendlyStates friendlyStates) {
-
+    if (friendlyStates==NULL) return NULL;
+    return friendlyStatesCreate(friendlyStates->nameState1,friendlyStates->nameState2);
 }
 
 

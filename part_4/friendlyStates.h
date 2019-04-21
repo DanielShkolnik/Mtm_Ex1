@@ -17,8 +17,10 @@ typedef enum {
     FRIENDLYSTATES_ITEM_DOES_NOT_EXIST
 } FriendlyStatesResult;
 
-
-
+FriendlyStates friendlyStatesCreate(const char* nameState1, const char* nameState2);
+FriendlyStatesResult friendlyStatesDestroy(FriendlyStates friendlyStates);
+int friendlyStatesCompare(FriendlyStates friendlyStates1, FriendlyStates friendlyStates2);
+FriendlyStates friendlyStatesCopy(FriendlyStates friendlyStates);
 
 
 #endif //PART_4_FRIENDLYSTATES_H
