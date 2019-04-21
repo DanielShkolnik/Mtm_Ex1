@@ -44,7 +44,7 @@ int judgeCompare(Judge judge1, Judge judge2) {
 
 Judge judgeCopy(Judge judge){
     if (judge==NULL) return NULL;
-    return createJudge(judge->id, judge->name, judge->votes);
+    return judgeCreate(judge->id, judge->name, judge->votes);
 }
 
 
