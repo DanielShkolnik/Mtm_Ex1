@@ -19,7 +19,7 @@ typedef enum {
     JUDGE_ITEM_DOES_NOT_EXIST
 } JudgeResult;
 
-Judge judgeCreate(int id, char *name,int *votes);
+Judge judgeCreate(int id,const char *name,int *votes);
 JudgeResult judgeDestroy(Judge judge);
 int judgeCompare(Judge judge1, Judge judge2);
 Judge judgeCopy(Judge judge);
