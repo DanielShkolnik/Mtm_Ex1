@@ -1,7 +1,3 @@
-//
-// Created by omer on 21/04/2019.
-//
-
 #include "state.h"
 #include "stateVotes.h"
 struct State_t{

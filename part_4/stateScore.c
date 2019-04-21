@@ -28,6 +28,7 @@ int compareStateScoreId(StateScore stateScore1, StateScore stateScore2) {
 }
 
 StateScore copyStateScore(StateScore stateScore){
+    if (stateScore==NULL) return NULL;
      return createStateScore(stateScore->id, stateScore->stateVotes, stateScore->judgesVotes);
 }
 

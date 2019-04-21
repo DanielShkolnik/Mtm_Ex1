@@ -1,4 +1,3 @@
-
 #include "stateVotes.h"
 
 struct StateVote_t{

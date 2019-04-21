@@ -1,7 +1,3 @@
-//
-// Created by omer on 21/04/2019.
-//
-
 #ifndef PART_4_STATEVOTES_H
 #define PART_4_STATEVOTES_H
 

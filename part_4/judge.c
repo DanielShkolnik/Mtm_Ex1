@@ -43,6 +43,7 @@ int compareJudge(Judge judge1, Judge judge2) {
 }
 
 Judge copyJudge(Judge judge){
+    if (judge==NULL) return NULL;
     return createJudge(judge->id, judge->name, judge->votes);
 }
 
