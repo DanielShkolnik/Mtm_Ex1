@@ -2,11 +2,24 @@
 #include "state.h"
 #include "judge.h"
 #define JUDGE_NUMBER_OF_VOTES 10
+#define REMOVE_STATE "remove"
 
 struct eurovision_t {
     Set states;
     Set judges;
 };
+
+static bool checkValidStateId(Set states ,const int* array) {
+    for (int i=0; i<JUDGE_NUMBER_OF_VOTES; i++) {
+        State tmp = stateCreate(array[i],REMOVE_STATE,REMOVE_STATE);
+        if (!setIsIn(states,tmp) {
+            stateDestroy(tmp);
+            return false;
+        }
+        stateDestroy(tmp);
+    }
+    return true;
+}
 
 static bool checkString(const char* str){
     for (int i=0; str[i]!=0 ; i++) {
@@ -65,6 +78,9 @@ EurovisionResult eurovisionAddJudge(Eurovision eurovision, int judgeId,
                                     const char *judgeName,
                                     int *judgeResults) {
     if (eurovision==NULL || judgeName==NULL || judgeResults==NULL) return EUROVISION_NULL_ARGUMENT;
+    if (judgeId<0 || !checkJudgeArray(judgeResults)) return EUROVISION_INVALID_ID;
+    if (!checkValidStateId(eurovision->states,judgeResults)) return EUROVISION_STATE_NOT_EXIST;
+    if (!checkString(judgeName)) return EUROVISION_INVALID_NAME;
     Judge newJudge = judgeCreate(judgeId,judgeName,judgeResults);
     if (newJudge==NULL) return EUROVISION_OUT_OF_MEMORY;
     SetResult setAddResult=setAdd(eurovision->judges,newJudge);
@@ -75,12 +91,10 @@ EurovisionResult eurovisionAddJudge(Eurovision eurovision, int judgeId,
 
 
 
-
-
-
-
 EurovisionResult eurovisionRemoveJudge(Eurovision eurovision, int judgeId) {
     if (eurovision==NULL) return EUROVISION_NULL_ARGUMENT;
-    SetResult setRemoveResult=setRemove(eurovision->judges,newJudge);
+    if (judgeId<0) return EUROVISION_INVALID_ID;
+
+    SetResult setRemoveResult=setRemove(eurovision->judges,judgeId);
 
 }
