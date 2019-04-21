@@ -2,7 +2,7 @@
 
 struct StateScore_t{
     int id;
-    int stateVotes;
+    int statesVotes;
     int judgesVotes;
 };
 
@@ -13,7 +13,7 @@ StateScore stateScoreCreate(int id, int stateVotes, int judgesVotes){
         return NULL;
     }
     ptr->id=id;
-    ptr->stateVotes=stateVotes;
+    ptr->statesVotes=stateVotes;
     ptr->judgesVotes=judgesVotes;
 }
 
@@ -24,11 +24,12 @@ StateScoreResult stateScoreDestroy(StateScore stateScore){
 }
 
 int stateScoreCompare(StateScore stateScore1, StateScore stateScore2) {
+    assert(stateScore1!=NULL && stateScore2!=NULL);
     return stateScore1->id-stateScore2->id;
 }
 
 StateScore stateScoreCopy(StateScore stateScore){
     if (stateScore==NULL) return NULL;
-     return stateScoreCreate(stateScore->id, stateScore->stateVotes, stateScore->judgesVotes);
+     return stateScoreCreate(stateScore->id, stateScore->statesVotes, stateScore->judgesVotes);
 }
 

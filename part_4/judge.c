@@ -7,7 +7,7 @@ struct Judge_t{
     int *votes;
 };
 
-static void copyArray (int* votesCopy, int* votes);
+static void copyArray (int* votesCopy, const int* votes);
 
 Judge judgeCreate(int id, const char *name,int *votes){
     Judge ptrJudge = malloc(sizeof(*ptrJudge));
@@ -39,6 +39,7 @@ JudgeResult judgeDestroy(Judge judge){
 }
 
 int judgeCompare(Judge judge1, Judge judge2) {
+    assert(judge1!=NULL && judge2!=NULL);
     return judge1->id-judge2->id;
 }
 
