@@ -21,7 +21,7 @@ static Judge getJudge(Set judges ,int judgeId) {
 static bool checkValidStateId(Set states ,const int* array) {
     for (int i=0; i<JUDGE_NUMBER_OF_VOTES; i++) {
         State tmp = stateCreate(array[i],REMOVE_STATE,REMOVE_STATE);
-        if (!setIsIn(states,tmp) {
+        if (!setIsIn(states,tmp)) {
             stateDestroy(tmp);
             return false;
         }
