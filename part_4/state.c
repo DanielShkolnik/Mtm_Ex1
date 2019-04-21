@@ -50,3 +50,11 @@ int stateCompare(State state1,State state2){
 int stateGetId(State state){
     return state->id;
 }
+
+StateResult stateRemoveVotedState(State state, State remove){
+    StateVote tmp = stateVoteCreate(remove->id);
+    SetResult result = setRemove(state->votes,tmp);
+    if(result == SET_ITEM_DOES_NOT_EXIST) return STATE_ITEM_DOES_NOT_EXIST;
+    stateDestroy(tmp);
+    return STATE_SUCCESS;
+}

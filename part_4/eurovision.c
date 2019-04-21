@@ -105,8 +105,7 @@ EurovisionResult eurovisionAddState(Eurovision eurovision, int stateId,
         return EUROVISION_NULL_ARGUMENT;
     }
     if(stateId < 0) return EUROVISION_INVALID_ID;
-    if(!checkString(stateName)) return EUROVISION_INVALID_NAME;
-    if(!checkString(songName)) return EUROVISION_INVALID_NAME;
+    if(!checkString(stateName) || !checkString(songName)) return EUROVISION_INVALID_NAME;
     State tmp = stateCreate(stateId,stateName,songName);
     if(!tmp) return EUROVISION_OUT_OF_MEMORY;
     SetResult result = setAdd(eurovision->states,tmp);
@@ -126,7 +125,7 @@ EurovisionResult eurovisionRemoveJudge(Eurovision eurovision, int judgeId) {
 }
 
 
-static void getJudgeIdsWhoVotedForState(Eurovision eurovision,State state,Judge* judges){
+static void getJudgesWhoVotedForState(Eurovision eurovision,State state,Judge* judges){
     int j = 0;
     SET_FOREACH(Judge,judge,eurovision->judges){
         int *votes = judgeGetVotes(judge);
@@ -153,12 +152,15 @@ EurovisionResult eurovisionRemoveState(Eurovision eurovision, int stateId){
     int size = setGetSize(eurovision->judges);
     Judge* removeJudges = malloc(sizeof(Judge)*size);
     initializeJudgeArray(removeJudges,size);
-    getJudgeIdsWhoVotedForState(eurovision,tmp,removeJudges);
+    getJudgesWhoVotedForState(eurovision,tmp,removeJudges);
     for(int i=0;i<size;i++){
-        if(removeJudges[i]<0){
+        if(removeJudges[i]==NULL){
             break;
         }
         setRemove(eurovision->judges,removeJudges[i]);
+    }
+    SET_FOREACH(State,state,eurovision->states){
+        stateRemoveVotedState(state,tmp);
     }
     stateDestroy(tmp);
     free(removeJudges);
