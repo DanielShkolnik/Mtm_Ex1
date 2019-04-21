@@ -1,11 +1,27 @@
 #include "eurovision.h"
 #include "state.h"
 #include "judge.h"
+#define JUDGE_NUMBER_OF_VOTES 10
 
 struct eurovision_t {
     Set states;
     Set judges;
 };
+
+static bool checkString(const char* str){
+    for (int i=0; str[i]!=0 ; i++) {
+        if ((str[i]<97 || str[i]>122) || str[i]!=32) return false;
+    }
+    return true;
+}
+
+static bool checkJudgeArray(const int* array) {
+    for (int i=0; i<JUDGE_NUMBER_OF_VOTES; i++) {
+        if (array[i]<0) return false;
+    }
+    return true;
+}
+
 static SetElement copyState (SetElement state){
     if(!state) return NULL;
     return stateCopy((State)state);
@@ -39,6 +55,29 @@ Eurovision eurovisionCreate(){
     ptr->judges = setCreate(copyJudge,freeJudge,compareJudge);
 }
 
+void eurovisionDestroy(Eurovision eurovision) {
+    setDestroy(eurovision->states);
+    setDestroy(eurovision->judges);
+    free(eurovision);
+}
+
+EurovisionResult eurovisionAddJudge(Eurovision eurovision, int judgeId,
+                                    const char *judgeName,
+                                    int *judgeResults) {
+    if (eurovision==NULL || judgeName==NULL || judgeResults==NULL) return EUROVISION_NULL_ARGUMENT;
+    Judge newJudge = judgeCreate(judgeId,judgeName,judgeResults);
+    if (newJudge==NULL) return EUROVISION_OUT_OF_MEMORY;
+    SetResult setAddResult=setAdd(eurovision->judges,newJudge);
+    if (setAddResult==SET_OUT_OF_MEMORY) return EUROVISION_OUT_OF_MEMORY;
+    if (setAddResult==SET_ITEM_ALREADY_EXISTS) return EUROVISION_JUDGE_ALREADY_EXIST;
+    return EUROVISION_SUCCESS;
+}
+
+
+
+
+
+
 EurovisionResult eurovisionAddState(Eurovision eurovision, int stateId,
                                     const char *stateName,
                                     const char *songName){
@@ -53,3 +92,9 @@ EurovisionResult eurovisionAddState(Eurovision eurovision, int stateId,
 }
 
 
+
+EurovisionResult eurovisionRemoveJudge(Eurovision eurovision, int judgeId) {
+    if (eurovision==NULL) return EUROVISION_NULL_ARGUMENT;
+    SetResult setRemoveResult=setRemove(eurovision->judges,newJudge);
+
+}
