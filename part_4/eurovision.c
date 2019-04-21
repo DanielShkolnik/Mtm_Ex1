@@ -39,3 +39,17 @@ Eurovision eurovisionCreate(){
     ptr->judges = setCreate(copyJudge,freeJudge,compareJudge);
 }
 
+EurovisionResult eurovisionAddState(Eurovision eurovision, int stateId,
+                                    const char *stateName,
+                                    const char *songName){
+    if(!eurovision || !stateName || !songName){
+        return EUROVISION_NULL_ARGUMENT;
+    }
+    State tmp = stateCreate(stateId,stateName,songName);
+    SetResult result = setAdd(eurovision->states,tmp);
+    if(result == SET_ITEM_ALREADY_EXISTS) return EUROVISION_STATE_ALREADY_EXIST;
+    if(result == SET_OUT_OF_MEMORY) return EUROVISION_OUT_OF_MEMORY;
+    return EUROVISION_SUCCESS;
+}
+
+
