@@ -55,3 +55,7 @@ int judgeCompareById(int judgeId1, int judgeId2) {
 int judgeGetId(Judge judge) {
     return judge->id;
 }
+
+int* judgeGetVotes(Judge judge) {
+    return judge->votes
+}
