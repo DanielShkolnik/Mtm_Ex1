@@ -25,6 +25,7 @@ int judgeCompare(Judge judge1, Judge judge2);
 Judge judgeCopy(Judge judge);
 int judgeCompareById(int judgeId1, int judgeId2);
 int judgeGetId(Judge judge);
+int* judgeGetVotes(Judge judge);
 
 
 
