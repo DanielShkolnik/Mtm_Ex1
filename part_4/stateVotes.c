@@ -36,7 +36,12 @@ StatVoteResult stateVoteAddVote(StateVote vote){
 
 StatVoteResult stateVoteRemoveVote(StateVote vote){
     if(!vote) return STATEVOTE_NULL_ARGUMENT;
-    vote->votes -= 1;
+    if(vote->votes <= 0){
+        vote->votes = 0;
+    }
+    else{
+        vote->votes -= 1;
+    }
     return STATEVOTE_SUCCESS;
 }
 

@@ -6,6 +6,8 @@
 #define ASCII_SMALL_A_VALUE 97
 #define ASCII_SMALL_Z_VALUE 122
 #define ASCII_SPACE_VALUE 32
+static EurovisionResult AddOrRemoveVote(Eurovision eurovision, int stateGiver,
+                                        int stateTaker,VoteAddOrRemove choice);
 struct eurovision_t {
     Set states;
     Set judges;
@@ -169,29 +171,25 @@ EurovisionResult eurovisionRemoveState(Eurovision eurovision, int stateId){
 
 EurovisionResult eurovisionAddVote(Eurovision eurovision, int stateGiver,
                                    int stateTaker){
-    if(!eurovision) return EUROVISION_NULL_ARGUMENT;
-    if(stateGiver < 0 || stateTaker < 0) return EUROVISION_INVALID_ID;
-    if(stateGiver==stateTaker) return EUROVISION_SAME_STATE;
-    SET_FOREACH(State,state,eurovision->states){
-        if(stateGetId(state)==stateGiver){
-            stateAddVote(state,stateTaker);
-            break;
-        }
-    }
-    return EUROVISION_SUCCESS;
+    return AddOrRemoveVote(eurovision,stateGiver,stateTaker,VOTE_ADD);
 }
 
 EurovisionResult eurovisionRemoveVote(Eurovision eurovision, int stateGiver,
                                       int stateTaker){
+    return AddOrRemoveVote(eurovision,stateGiver,stateTaker,VOTE_REMOVE);
+}
+
+static EurovisionResult AddOrRemoveVote(Eurovision eurovision, int stateGiver,
+                                        int stateTaker,VoteAddOrRemove choice){
     if(!eurovision) return EUROVISION_NULL_ARGUMENT;
     if(stateGiver < 0 || stateTaker < 0) return EUROVISION_INVALID_ID;
     if(stateGiver==stateTaker) return EUROVISION_SAME_STATE;
     SET_FOREACH(State,state,eurovision->states){
         if(stateGetId(state)==stateGiver){
-            stateRemoveVote(state,stateTaker);
+            stateAddOrRemoveVote(state,stateTaker,choice);
             break;
         }
     }
     return EUROVISION_SUCCESS;
-
 }
+

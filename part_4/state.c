@@ -59,22 +59,20 @@ StateResult stateRemoveVotedState(State state, State remove){
     return STATE_SUCCESS;
 }
 
-StateResult stateAddVote(State state, int voteStateId){
+StateResult stateAddOrRemoveVote(State state, int voteStateId,VoteAddOrRemove choice){
     if(!state || voteStateId < 0) return STATE_NULL_ARGUMENT;
     SET_FOREACH(StateVote,vote,state->votes){
         if(stateVoteGetId(vote)==voteStateId){
-            stateVoteAddVote(vote);
+            if(choice == VOTE_ADD){
+                stateVoteAddVote(vote);
+            }
+            else{
+                stateVoteRemoveVote(vote);
+            }
         }
     }
-    return STATE_SUCCESS;
-}
-
-StateResult stateRemoveVote(State state, int voteStateId){
-    if(!state || voteStateId < 0) return STATE_NULL_ARGUMENT;
-    SET_FOREACH(StateVote,vote,state->votes){
-        if(stateVoteGetId(vote)==voteStateId){
-            stateVoteRemoveVote(vote);
-        }
-    }
+    StateVote tmp = stateVoteCreate(voteStateId);
+    setAdd(state->votes,tmp);
+    stateVoteDestroy(tmp);
     return STATE_SUCCESS;
 }
