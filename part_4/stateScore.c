@@ -7,7 +7,7 @@ struct StateScore_t{
 };
 
 
-StateScore createStateScore(int id, int stateVotes, int judgesVotes){
+StateScore stateScoreCreate(int id, int stateVotes, int judgesVotes){
     StateScore ptr=malloc(sizeof(*ptr));
     if(!ptr){
         return NULL;
@@ -17,17 +17,17 @@ StateScore createStateScore(int id, int stateVotes, int judgesVotes){
     ptr->judgesVotes=judgesVotes;
 }
 
-StateScoreResult destroyStateScore(StateScore stateScore){
+StateScoreResult stateScoreDestroy(StateScore stateScore){
     if (stateScore==NULL) return STATESCORE_NULL_ARGUMENT;
     free(stateScore);
     return STATESCORE_SUCCESS;
 }
 
-int compareStateScoreId(StateScore stateScore1, StateScore stateScore2) {
+int stateScoreCompare(StateScore stateScore1, StateScore stateScore2) {
     return stateScore1->id-stateScore2->id;
 }
 
-StateScore copyStateScore(StateScore stateScore){
+StateScore stateScoreCopy(StateScore stateScore){
     if (stateScore==NULL) return NULL;
      return createStateScore(stateScore->id, stateScore->stateVotes, stateScore->judgesVotes);
 }
