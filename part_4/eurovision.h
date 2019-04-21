@@ -1,6 +1,9 @@
 #ifndef EUROVISION_H_
 #define EUROVISION_H_
-
+#include <stdlib.h>
+#include <assert.h>
+#include <stdio.h>
+#include <stdbool.h>
 #include "list.h"
 
 typedef enum eurovisionResult_t {
