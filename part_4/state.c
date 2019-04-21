@@ -37,7 +37,7 @@ State stateCreate(int id, const char* name, const char* song){
 }
 State stateCopy(State state){
     if(!state) return NULL;
-    return stateCreate(state->id,state->name);
+    return stateCreate(state->id,state->name,state->song);
 }
 
 void stateDestroy(State state){
