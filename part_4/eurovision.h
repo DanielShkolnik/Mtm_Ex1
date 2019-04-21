@@ -6,7 +6,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "set.h"
-
+#include "list.h"
 typedef enum eurovisionResult_t {
     EUROVISION_NULL_ARGUMENT,
     EUROVISION_OUT_OF_MEMORY,

@@ -1,8 +1,6 @@
 #include "eurovision.h"
 #include "state.h"
 #include "judge.h"
-#include "set.h"
-#include "list.h"
 #define JUDGE_NUMBER_OF_VOTES 10
 #define REMOVE_STATE "remove"
 #define ASCII_SMALL_A_VALUE 97
@@ -121,6 +119,10 @@ static void getJudgeIdsWhoVotedForState(Eurovision eurovision,State state,int* j
     SET_FOREACH(Judge,judge,eurovision->judges){
         for(int i=0;i<10;i++){
 
+        }
+    }
+}
+
 EurovisionResult eurovisionRemoveJudge(Eurovision eurovision, int judgeId) {
     if (eurovision==NULL) return EUROVISION_NULL_ARGUMENT;
     if (judgeId<0) return EUROVISION_INVALID_ID;
@@ -129,9 +131,7 @@ EurovisionResult eurovisionRemoveJudge(Eurovision eurovision, int judgeId) {
     setRemove(eurovision->judges,judgeToRemove);
     return EUROVISION_SUCCESS;
 }
-        }
-    }
-}
+
 EurovisionResult eurovisionRemoveState(Eurovision eurovision, int stateId){
     if(!eurovision) return EUROVISION_NULL_ARGUMENT;
     if(stateId<0) return EUROVISION_INVALID_ID;
