@@ -164,4 +164,34 @@ EurovisionResult eurovisionRemoveState(Eurovision eurovision, int stateId){
     }
     stateDestroy(tmp);
     free(removeJudges);
+    return EUROVISION_SUCCESS;
+}
+
+EurovisionResult eurovisionAddVote(Eurovision eurovision, int stateGiver,
+                                   int stateTaker){
+    if(!eurovision) return EUROVISION_NULL_ARGUMENT;
+    if(stateGiver < 0 || stateTaker < 0) return EUROVISION_INVALID_ID;
+    if(stateGiver==stateTaker) return EUROVISION_SAME_STATE;
+    SET_FOREACH(State,state,eurovision->states){
+        if(stateGetId(state)==stateGiver){
+            stateAddVote(state,stateTaker);
+            break;
+        }
+    }
+    return EUROVISION_SUCCESS;
+}
+
+EurovisionResult eurovisionRemoveVote(Eurovision eurovision, int stateGiver,
+                                      int stateTaker){
+    if(!eurovision) return EUROVISION_NULL_ARGUMENT;
+    if(stateGiver < 0 || stateTaker < 0) return EUROVISION_INVALID_ID;
+    if(stateGiver==stateTaker) return EUROVISION_SAME_STATE;
+    SET_FOREACH(State,state,eurovision->states){
+        if(stateGetId(state)==stateGiver){
+            stateRemoveVote(state,stateTaker);
+            break;
+        }
+    }
+    return EUROVISION_SUCCESS;
+
 }

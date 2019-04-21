@@ -27,3 +27,19 @@ void stateVoteDestroy(StateVote stateVote){
 int stateVoteCompare(StateVote stateVote1,StateVote stateVote2){
     return stateVote1->stateId - stateVote2->stateId;
 }
+
+StatVoteResult stateVoteAddVote(StateVote vote){
+    if(!vote) return STATEVOTE_NULL_ARGUMENT;
+    vote->votes += 1;
+    return STATEVOTE_SUCCESS;
+}
+
+StatVoteResult stateVoteRemoveVote(StateVote vote){
+    if(!vote) return STATEVOTE_NULL_ARGUMENT;
+    vote->votes -= 1;
+    return STATEVOTE_SUCCESS;
+}
+
+int stateVoteGetId(StateVote vote){
+    return vote->stateId;
+}

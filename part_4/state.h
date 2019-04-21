@@ -21,4 +21,6 @@ void stateDestroy(State state);
 int stateCompare(State state1,State state2);
 int stateGetId(State state);
 StateResult stateRemoveVotedState(State state, State remove);
+StateResult stateAddVote(State state, int voteStateId);
+StateResult stateRemoveVote(State state, int voteStateId);
 #endif //PART_4_STATE_H

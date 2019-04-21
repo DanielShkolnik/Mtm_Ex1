@@ -55,6 +55,26 @@ StateResult stateRemoveVotedState(State state, State remove){
     StateVote tmp = stateVoteCreate(remove->id);
     SetResult result = setRemove(state->votes,tmp);
     if(result == SET_ITEM_DOES_NOT_EXIST) return STATE_ITEM_DOES_NOT_EXIST;
-    stateDestroy(tmp);
+    stateVoteDestroy(tmp);
+    return STATE_SUCCESS;
+}
+
+StateResult stateAddVote(State state, int voteStateId){
+    if(!state || voteStateId < 0) return STATE_NULL_ARGUMENT;
+    SET_FOREACH(StateVote,vote,state->votes){
+        if(stateVoteGetId(vote)==voteStateId){
+            stateVoteAddVote(vote);
+        }
+    }
+    return STATE_SUCCESS;
+}
+
+StateResult stateRemoveVote(State state, int voteStateId){
+    if(!state || voteStateId < 0) return STATE_NULL_ARGUMENT;
+    SET_FOREACH(StateVote,vote,state->votes){
+        if(stateVoteGetId(vote)==voteStateId){
+            stateVoteRemoveVote(vote);
+        }
+    }
     return STATE_SUCCESS;
 }
