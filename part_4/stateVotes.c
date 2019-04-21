@@ -11,6 +11,7 @@ StateVote stateVoteCreate(int stateId){
         return NULL;
     }
     ptr->stateId = stateId;
+    ptr->votes = 0;
     return ptr;
 }
 
