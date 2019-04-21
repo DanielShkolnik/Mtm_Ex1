@@ -4,8 +4,10 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+/*
 struct Map_t {
     List countries,
-    List judges,
+    List judges;
 
 };
+ */
