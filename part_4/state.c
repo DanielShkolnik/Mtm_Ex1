@@ -69,10 +69,14 @@ StateResult stateAddOrRemoveVote(State state, int voteStateId,VoteAddOrRemove ch
             else{
                 stateVoteRemoveVote(vote);
             }
+            return STATE_SUCCESS;
         }
     }
-    StateVote tmp = stateVoteCreate(voteStateId);
-    setAdd(state->votes,tmp);
-    stateVoteDestroy(tmp);
+    if(choice==VOTE_ADD){
+        StateVote tmp = stateVoteCreate(voteStateId);
+        setAdd(state->votes,tmp);
+        stateVoteAddVote(tmp);
+        stateVoteDestroy(tmp);
+    }
     return STATE_SUCCESS;
 }
