@@ -4,7 +4,8 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include "list.h"
+#include <string.h>
+#include "set.h"
 
 typedef enum eurovisionResult_t {
     EUROVISION_NULL_ARGUMENT,
