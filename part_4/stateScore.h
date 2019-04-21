@@ -1,7 +1,6 @@
 #ifndef PART_4_STATESCORE_H
 #define PART_4_STATESCORE_H
 
-#endif //PART_4_STATESCORE_H
 #include <stdlib.h>
 #include <assert.h>
 #include <stdio.h>
@@ -16,3 +15,15 @@ typedef enum {
     STATESCORE_ITEM_ALREADY_EXISTS,
     STATESCORE_ITEM_DOES_NOT_EXIST
 } StateScoreResult;
+
+StateScore stateScoreCreate(int id, int stateVotes, int judgesVotes);
+StateScoreResult stateScoreDestroy(StateScore stateScore);
+int stateScoreCompare(StateScore stateScore1, StateScore stateScore2);
+StateScore stateScoreCopy(StateScore stateScore);
+
+
+
+
+
+
+#endif //PART_4_STATESCORE_H
