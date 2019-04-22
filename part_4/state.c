@@ -99,9 +99,14 @@ int* stateGetVotes(State state){
                 maxStateVote = voteIterator;
             }
         }
-        votes[i]=stateVoteGetId(maxStateVote);
-        setRemove(tmp,maxStateVote);
-        max=0;
+        if (max==0) {
+            votes[i]=-1;
+        }
+        else {
+            votes[i]=stateVoteGetId(maxStateVote);
+            max=0;
+            setRemove(tmp,maxStateVote);
+        }
     }
     free(votes);
     setDestroy(tmp);
