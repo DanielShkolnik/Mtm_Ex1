@@ -3,6 +3,7 @@
 #include "judge.h"
 #include "stateScore.h"
 #define JUDGE_NUMBER_OF_VOTES 10
+#define STATE_NUMBER_OF_VOTES 10
 #define REMOVE_STATE "remove"
 #define ASCII_SMALL_A_VALUE 97
 #define ASCII_SMALL_Z_VALUE 122
@@ -214,24 +215,23 @@ static EurovisionResult AddOrRemoveVote(Eurovision eurovision, int stateGiver,
     }
     return EUROVISION_SUCCESS;
 }
-
+// the two functions below seem similar but the only difference is in the macro SER_FOREACH.
+// we didnt want to put this whole function in macro and we cant change SET_FOREACH.
 static double getAverageOfStateScores(Set states,int stateId){
     int sum = 0;
     int numberOfStates = setGetSize(states);
     SET_FOREACH(State,stateIterator,states){
-        StateVote vote = stateGetVote(stateIterator,stateId);
-        if(vote){
-            sum+= stateVoteGetVote(vote);
+        int* votes = stateGetVotes(stateIterator);
+        for(int i=0;i<STATE_NUMBER_OF_VOTES;i++){
+            if(votes[i]==stateId){
+                sum += getScoreByPlace(i);
+            }
         }
     }
-    double average = (double)sum/numberOfStates;
-    return average;
+    return (double)sum/numberOfStates;
 }
-static int getScoreByPlace(int place){
-    if(place==0) return DUSPWA;
-    if(place==1) return SECOND_PLACE;
-    return SECOND_PLACE - place;
-}
+
+
 static double getAverageOfJudgeScore(Set judges, int stateId){
     int sum = 0;
     int numberOfJudges = setGetSize(judges);
@@ -246,6 +246,11 @@ static double getAverageOfJudgeScore(Set judges, int stateId){
     return (double)sum/numberOfJudges;
 }
 
+static int getScoreByPlace(int place){
+    if(place==0) return DUSPWA;
+    if(place==1) return SECOND_PLACE;
+    return SECOND_PLACE - place;
+}
 static SetElement copyStateScore(SetElement stateScore) {
     if(stateScore==NULL) return NULL;
     return stateScoreCopy((StateScore)stateScore);
@@ -302,6 +307,8 @@ List eurovisionRunContest(Eurovision eurovision, int audiencePercent) {
     SET_FOREACH(StateScore ,stateScoreIterator,finalScores) {
         listInsertLast(finalistNames,stateScoreGetName(stateScoreIterator));
     }
+
+
     free(stateIds);
     for(int j=0;j<numOfStates;j++){
         free(stateNames[j]);
