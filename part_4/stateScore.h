@@ -5,6 +5,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 
 typedef struct StateScore_t *StateScore;
 

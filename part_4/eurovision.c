@@ -193,3 +193,6 @@ static EurovisionResult AddOrRemoveVote(Eurovision eurovision, int stateGiver,
     return EUROVISION_SUCCESS;
 }
 
+
+
+
