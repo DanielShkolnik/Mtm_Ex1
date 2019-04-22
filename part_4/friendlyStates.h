@@ -21,6 +21,8 @@ FriendlyStates friendlyStatesCreate(const char* nameState1, const char* nameStat
 FriendlyStatesResult friendlyStatesDestroy(FriendlyStates friendlyStates);
 int friendlyStatesCompare(FriendlyStates friendlyStates1, FriendlyStates friendlyStates2);
 FriendlyStates friendlyStatesCopy(FriendlyStates friendlyStates);
+char* friendlyStatesGetName1(FriendlyStates friendlyStates);
+char* friendlyStatesGetName2(FriendlyStates friendlyStates);
 
 
 #endif //PART_4_FRIENDLYSTATES_H

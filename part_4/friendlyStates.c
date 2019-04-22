@@ -42,4 +42,14 @@ FriendlyStates friendlyStatesCopy(FriendlyStates friendlyStates) {
     return friendlyStatesCreate(friendlyStates->nameState1,friendlyStates->nameState2);
 }
 
+char* friendlyStatesGetName1(FriendlyStates friendlyStates){
+    if (friendlyStates==NULL) return NULL;
+    return friendlyStates->nameState1;
+}
+
+char* friendlyStatesGetName2(FriendlyStates friendlyStates){
+    if (friendlyStates==NULL) return NULL;
+    return friendlyStates->nameState2;
+}
+
 

@@ -2,6 +2,7 @@
 #include "state.h"
 #include "judge.h"
 #include "stateScore.h"
+#include "friendlyStates.h"
 #define JUDGE_NUMBER_OF_VOTES 10
 #define STATE_NUMBER_OF_VOTES 10
 #define REMOVE_STATE "remove"
@@ -18,6 +19,7 @@ static int getScoreByPlace(int place);
 static Judge getJudge(Set judges ,int judgeId);
 static void getJudgesWhoVotedForState(Eurovision eurovision,State state,Judge* judges);
 static void initializeJudgeArray(Judge* array, int length);
+static State getStateById(Set states, int stateId);
 
 static bool checkValidStateId(Set states ,const int* array);
 static bool checkString(const char* str);
@@ -307,8 +309,6 @@ List eurovisionRunContest(Eurovision eurovision, int audiencePercent) {
     SET_FOREACH(StateScore ,stateScoreIterator,finalScores) {
         listInsertLast(finalistNames,stateScoreGetName(stateScoreIterator));
     }
-
-
     free(stateIds);
     for(int j=0;j<numOfStates;j++){
         free(stateNames[j]);
@@ -323,11 +323,91 @@ List eurovisionRunAudienceFavorite(Eurovision eurovision){
     return eurovisionRunContest(eurovision,PERCENTAGE);
 }
 
+static State getStateById(Set states, int stateId) {
+    if (states==NULL || stateId<0) return NULL;
+    SET_FOREACH(State ,stateIterator,states){
+        if (stateGetId(stateIterator)==stateId) return stateIterator;
+    }
+    return NULL;
+}
+
+
+
+
+
+
+static SetElement copyFriendlyStates(SetElement friendlyStates) {
+    if(friendlyStates==NULL) return NULL;
+    return friendlyStatesCopy((FriendlyStates)friendlyStates);
+}
+
+static void freeFriendlyStates(SetElement friendlyStates) {
+    friendlyStatesDestroy((FriendlyStates)friendlyStates);
+}
+
+static int compareFriendlyStates(SetElement friendlyStates1, SetElement friendlyStates2) {
+    assert(friendlyStates1!=NULL || friendlyStates2!=NULL);
+    return friendlyStatesCompare((FriendlyStates)friendlyStates1, (FriendlyStates)friendlyStates2);
+}
+
+
+
+static char* generateFriendlyStatesString(FriendlyStates friendlyStates) {
+    assert(friendlyStates!=NULL);
+    char* newName1= malloc(sizeof(char)*strlen(friendlyStatesGetName1(friendlyStates))+1);
+    char* newName2= malloc(sizeof(char)*strlen(friendlyStatesGetName2(friendlyStates))+1);
+    strcpy(newName1,friendlyStatesGetName1(friendlyStates));
+    strcpy(newName2,friendlyStatesGetName2(friendlyStates));
+    char* newStr=" - ";
+    char* finalName=malloc(sizeof(char)*(strlen(newName1)+strlen(newName2)+strlen(newStr))+1);
+    strncat(finalName,newName1,strlen(newName1));
+    strncat(finalName,newStr,strlen(newStr));
+    strncat(finalName,newName2,strlen(newName2));
+    free(newName1);
+    free(newName2);
+    return finalName;
+}
+
+static ListElement copyFriendlyStatesList(ListElement friendlyStatesStr) {
+    assert(friendlyStatesStr!=NULL);
+    char* newName= malloc(sizeof(char)*strlen((char*)friendlyStatesStr)+1);
+    strcpy(newName,(char*)friendlyStatesStr);
+    return newName;
+}
+
+static void freeFriendlyStatesList(ListElement friendlyStatesStr) {
+    free((char*)friendlyStatesStr);
+}
+
 
 List eurovisionRunGetFriendlyStates(Eurovision eurovision){
-    SET_FOREACH(State ,stateIterator,eurovision->states){
-
+    Set tmp=setCopy(eurovision->states);
+    if (tmp==NULL) return NULL;
+    int topVoteId1=0, topVoteId2=0;
+    Set friendlyStatesSet=setCreate(copyFriendlyStates,freeFriendlyStates,compareFriendlyStates);
+    SET_FOREACH(State ,stateIterator,tmp){
+        int *topVoteId1Array,*topVoteId2Array;
+        topVoteId1Array=stateGetVotes(stateIterator);
+        topVoteId1=topVoteId1Array[0];
+        State stateTmp=getStateById(eurovision->states,topVoteId1);
+        topVoteId2Array=stateGetVotes(stateTmp);
+        topVoteId2=topVoteId2Array[0];
+        if (topVoteId1==topVoteId2) {
+            FriendlyStates friendlyStatesTmp=friendlyStatesCreate(stateGetName(stateIterator),stateGetName(stateTmp));
+            setAdd(friendlyStatesSet,friendlyStatesTmp);
+            friendlyStatesDestroy(friendlyStatesTmp);
+        }
+        stateDestroy(stateTmp);
+        free(topVoteId1Array);
+        free(topVoteId2Array;
     }
-
-
+    List friendlyStatesList=listCreate(copyFriendlyStatesList,freeFriendlyStatesList);
+    if (friendlyStatesList==NULL) return NULL;
+    SET_FOREACH(FriendlyStates ,friendlyStatesIterator,friendlyStatesSet) {
+        char* finalFriendlyStatesString=generateFriendlyStatesString(friendlyStatesIterator);
+        listInsertLast(friendlyStatesList,finalFriendlyStatesString);
+    }
+    setDestroy(tmp);
+    setDestroy(friendlyStatesSet);
+    return friendlyStatesList;
 }
