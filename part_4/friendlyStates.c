@@ -11,10 +11,14 @@ FriendlyStates friendlyStatesCreate(const char* nameState1, const char* nameStat
         return NULL;
     }
     if (strcmp(nameState1,nameState2)<0) {
+        ptr->nameState1 = malloc(sizeof(char)*strlen(nameState1)+1);
+        ptr->nameState2 = malloc(sizeof(char)*strlen(nameState2)+1);
         strcpy(ptr->nameState1,nameState1);
         strcpy(ptr->nameState2,nameState2);
     }
     else {
+        ptr->nameState1 = malloc(sizeof(char)*strlen(nameState2)+1);
+        ptr->nameState2 = malloc(sizeof(char)*strlen(nameState1)+1);
         strcpy(ptr->nameState1,nameState2);
         strcpy(ptr->nameState2,nameState1);
     }

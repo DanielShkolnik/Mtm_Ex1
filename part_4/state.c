@@ -89,3 +89,8 @@ StateVote stateGetVote(State state, int stateId){
     }
     return NULL;
 }
+
+char* stateGetName(State state) {
+    assert(state!=NULL);
+    return state->name;
+}

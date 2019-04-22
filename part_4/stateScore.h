@@ -17,11 +17,11 @@ typedef enum {
     STATESCORE_ITEM_DOES_NOT_EXIST
 } StateScoreResult;
 
-StateScore stateScoreCreate(int id, int stateVotes, int judgesVotes);
+StateScore stateScoreCreate(int id, char* name, double stateVotesAverage, double judgesVotesAverage, int audiencePercent);
 StateScoreResult stateScoreDestroy(StateScore stateScore);
 int stateScoreCompare(StateScore stateScore1, StateScore stateScore2);
 StateScore stateScoreCopy(StateScore stateScore);
-
+char* stateScoreGetName(StateScore stateScore);
 
 
 

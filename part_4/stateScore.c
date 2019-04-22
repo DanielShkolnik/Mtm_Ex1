@@ -14,6 +14,7 @@ StateScore stateScoreCreate(int id, char* name, double stateVotesAverage, double
         return NULL;
     }
     ptr->id=id;
+    ptr->name = malloc(sizeof(char)*strlen(name)+1);
     strcpy(ptr->name,name);
     ptr->totalScore=(stateVotesAverage*audiencePercent)/PERCENTAGE+(judgesVotesAverage*(PERCENTAGE-audiencePercent))/PERCENTAGE;
 }
@@ -40,7 +41,12 @@ StateScore stateScoreCopy(StateScore stateScore){
         return NULL;
     }
     ptr->id=stateScore->id;
+    ptr->name = malloc(sizeof(char)*strlen(stateScore->name)+1);
     strcpy(ptr->name,stateScore->name);
     ptr->totalScore=stateScore->totalScore;
 }
 
+char* stateScoreGetName(StateScore stateScore) {
+    assert(stateScore!=NULL);
+    return stateScore->name;
+}

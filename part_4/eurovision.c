@@ -1,6 +1,7 @@
 #include "eurovision.h"
 #include "state.h"
 #include "judge.h"
+#include "stateScore.h"
 #define JUDGE_NUMBER_OF_VOTES 10
 #define REMOVE_STATE "remove"
 #define ASCII_SMALL_A_VALUE 97
@@ -215,8 +216,8 @@ static EurovisionResult AddOrRemoveVote(Eurovision eurovision, int stateGiver,
 static double getAverageOfStateScores(Set states,int stateId){
     int sum = 0;
     int numberOfStates = setGetSize(states);
-    SET_FOREACH(State,state,states){
-        StateVote vote = stateGetVote(state,stateId);
+    SET_FOREACH(State,stateIterator,states){
+        StateVote vote = stateGetVote(stateIterator,stateId);
         if(vote){
             sum+= stateVoteGetVote(vote);
         }
@@ -243,3 +244,52 @@ static double getAverageOfJudgeScore(Set judges, int stateId){
     return (double)sum/numberOfJudges;
 }
 
+static SetElement copyStateScore(SetElement stateScore) {
+    if(stateScore==NULL) return NULL;
+    return stateScoreCopy((StateScore)stateScore);
+}
+
+static void freeStateScore(SetElement stateScore) {
+    stateScoreDestroy((StateScore)stateScore);
+}
+
+static int compareStateScores(SetElement stateScore1, SetElement stateScore2) {
+    assert(stateScore1!=NULL || stateScore2!=NULL);
+    return stateScoreCompare((StateScore)stateScore1, (StateScore)stateScore2);
+}
+
+static ListElement copyFinalistNames(ListElement name) {
+    assert(name!=NULL);
+    char* newName=NULL;
+    strcpy(newName,(char*)name);
+    return newName;
+}
+
+static void freeFinalistNames(ListElement stateScore) {
+    free((StateScore)stateScore);
+}
+
+
+List eurovisionRunContest(Eurovision eurovision, int audiencePercent) {
+    int numOfStates=setGetSize(eurovision->states);
+    int* stateIds=malloc(sizeof(int)*numOfStates);
+    char** stateNames=malloc(sizeof(char*)*numOfStates);
+    if (stateIds==NULL || stateNames==NULL) return NULL;
+    int i=0;
+    SET_FOREACH(State ,stateIterator,eurovision->states) {
+        stateIds[i]=stateGetId(stateIterator);
+        strcpy(stateNames[i],stateGetName(stateIterator));
+        i++;
+    }
+    Set finalScores=setCreate(copyStateScore,freeStateScore,compareStateScores);
+    double averageOfStateScores=0,averageOfJudgeScores=0;
+    for (i=0; i<numOfStates; i++) {
+        averageOfStateScores=getAverageOfStateScores(eurovision->states,stateIds[i]);
+        averageOfJudgeScores=getAverageOfJudgeScore(eurovision->judges,stateIds[i]);
+        StateScore tmp=stateScoreCreate(stateIds[i],stateNames[i],averageOfStateScores,averageOfJudgeScores,audiencePercent);
+        setAdd(finalScores,tmp);
+        stateScoreDestroy(tmp);
+    }
+    List finalistNames=listCreate()
+
+}
