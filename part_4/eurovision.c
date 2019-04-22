@@ -399,7 +399,7 @@ List eurovisionRunGetFriendlyStates(Eurovision eurovision){
         }
         stateDestroy(stateTmp);
         free(topVoteId1Array);
-        free(topVoteId2Array;
+        free(topVoteId2Array);
     }
     List friendlyStatesList=listCreate(copyFriendlyStatesList,freeFriendlyStatesList);
     if (friendlyStatesList==NULL) return NULL;
