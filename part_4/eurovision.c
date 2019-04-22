@@ -6,8 +6,27 @@
 #define ASCII_SMALL_A_VALUE 97
 #define ASCII_SMALL_Z_VALUE 122
 #define ASCII_SPACE_VALUE 32
+#define DUSPWA 12
+#define SECOND_PLACE 10
 static EurovisionResult AddOrRemoveVote(Eurovision eurovision, int stateGiver,
                                         int stateTaker,VoteAddOrRemove choice);
+static int getScoreByPlace(int place);
+static Judge getJudge(Set judges ,int judgeId);
+static void getJudgesWhoVotedForState(Eurovision eurovision,State state,Judge* judges);
+static void initializeJudgeArray(Judge* array, int length);
+
+static bool checkValidStateId(Set states ,const int* array);
+static bool checkString(const char* str);
+static bool checkJudgeArray(const int* array);
+
+static SetElement copyState (SetElement state);
+static void freeState(SetElement state);
+static int compareState(SetElement state1, SetElement state2);
+
+static SetElement copyJudge (SetElement judge);
+static void freeJudge(SetElement judge);
+static int compareJudge(SetElement judge1, SetElement judge2);
+
 struct eurovision_t {
     Set states;
     Set judges;
@@ -191,5 +210,36 @@ static EurovisionResult AddOrRemoveVote(Eurovision eurovision, int stateGiver,
         }
     }
     return EUROVISION_SUCCESS;
+}
+
+static double getAverageOfStateScores(Set states,int stateId){
+    int sum = 0;
+    int numberOfStates = setGetSize(states);
+    SET_FOREACH(State,state,states){
+        StateVote vote = stateGetVote(state,stateId);
+        if(vote){
+            sum+= stateVoteGetVote(vote);
+        }
+    }
+    double average = (double)sum/numberOfStates;
+    return average;
+}
+static int getScoreByPlace(int place){
+    if(place==0) return DUSPWA;
+    if(place==1) return SECOND_PLACE;
+    return SECOND_PLACE - place;
+}
+static double getAverageOfJudgeScore(Set judges, int stateId){
+    int sum = 0;
+    int numberOfJudges = setGetSize(judges);
+    SET_FOREACH(Judge,judgeIterator,judges){
+        int* votes = judgeGetVotes(judgeIterator);
+        for(int i=0;i<JUDGE_NUMBER_OF_VOTES;i++){
+            if(votes[i]==stateId){
+                sum += getScoreByPlace(i);
+            }
+        }
+    }
+    return (double)sum/numberOfJudges;
 }
 

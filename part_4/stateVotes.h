@@ -22,4 +22,5 @@ int stateVoteCompare(StateVote stateVote1,StateVote stateVote2);
 StatVoteResult stateVoteAddVote(StateVote vote);
 StatVoteResult stateVoteRemoveVote(StateVote vote);
 int stateVoteGetId(StateVote vote);
+int stateVoteGetVote(StateVote vote);
 #endif //PART_4_STATEVOTES_H

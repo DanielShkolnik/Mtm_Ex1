@@ -48,3 +48,7 @@ StatVoteResult stateVoteRemoveVote(StateVote vote){
 int stateVoteGetId(StateVote vote){
     return vote->stateId;
 }
+
+int stateVoteGetVote(StateVote vote){
+    return vote->stateId;
+}

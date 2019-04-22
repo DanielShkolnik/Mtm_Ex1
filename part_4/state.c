@@ -80,3 +80,12 @@ StateResult stateAddOrRemoveVote(State state, int voteStateId,VoteAddOrRemove ch
     }
     return STATE_SUCCESS;
 }
+
+StateVote stateGetVote(State state, int stateId){
+    SET_FOREACH(StateVote,vote,state->votes){
+        if(stateVoteGetId(vote)==stateId){
+            return vote;
+        }
+    }
+    return NULL;
+}

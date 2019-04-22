@@ -26,5 +26,5 @@ int stateCompare(State state1,State state2);
 int stateGetId(State state);
 StateResult stateRemoveVotedState(State state, State remove);
 StateResult stateAddOrRemoveVote(State state, int voteStateId, VoteAddOrRemove choice);
-StateResult stateRemoveVote(State state, int voteStateId);
+StateVote stateGetVote(State state, int stateId);
 #endif //PART_4_STATE_H
