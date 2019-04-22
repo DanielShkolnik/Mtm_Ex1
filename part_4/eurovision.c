@@ -249,7 +249,7 @@ static double getAverageOfStateScores(Set states,int stateId){
     SET_FOREACH(State,stateIterator,states){
         int* votes = stateGetVotes(stateIterator);
         for(int i=0;i<STATE_NUMBER_OF_VOTES;i++){
-            if(votes[i]==stateId){
+            if(votes[i]==stateId && votes[i]>=0){
                 sum += getScoreByPlace(i);
             }
         }
@@ -416,7 +416,7 @@ List eurovisionRunGetFriendlyStates(Eurovision eurovision){
         State stateTmp=getStateById(eurovision->states,topVoteId1);
         topVoteId2Array=stateGetVotes(stateTmp);
         topVoteId2=topVoteId2Array[0];
-        if (topVoteId1==topVoteId2) {
+        if (topVoteId1>=0 && topVoteId2>=0 && topVoteId1==topVoteId2) {
             FriendlyStates friendlyStatesTmp=friendlyStatesCreate(stateGetName(stateIterator),stateGetName(stateTmp));
             setAdd(friendlyStatesSet,friendlyStatesTmp);
             friendlyStatesDestroy(friendlyStatesTmp);
