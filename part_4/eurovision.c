@@ -20,6 +20,9 @@ static Judge getJudge(Set judges ,int judgeId);
 static void getJudgesWhoVotedForState(Eurovision eurovision,State state,Judge* judges);
 static void initializeJudgeArray(Judge* array, int length);
 static State getStateById(Set states, int stateId);
+static double getAverageOfStateScores(Set states,int stateId);
+static double getAverageOfJudgeScore(Set judges, int stateId);
+static char* generateFriendlyStatesString(FriendlyStates friendlyStates);
 
 static bool checkValidStateId(Set states ,const int* array);
 static bool checkString(const char* str);
@@ -32,6 +35,20 @@ static int compareState(SetElement state1, SetElement state2);
 static SetElement copyJudge (SetElement judge);
 static void freeJudge(SetElement judge);
 static int compareJudge(SetElement judge1, SetElement judge2);
+
+static SetElement copyStateScore(SetElement stateScore);
+static void freeStateScore(SetElement stateScore);
+static int compareStateScores(SetElement stateScore1, SetElement stateScore2);
+
+static ListElement copyFinalistNames(ListElement name);
+static void freeFinalistNames(ListElement stateScore);
+
+static SetElement copyFriendlyStates(SetElement friendlyStates);
+static void freeFriendlyStates(SetElement friendlyStates);
+static int compareFriendlyStates(SetElement friendlyStates1, SetElement friendlyStates2);
+
+static ListElement copyFriendlyStatesList(ListElement friendlyStatesStr);
+static void freeFriendlyStatesList(ListElement friendlyStatesStr);
 
 struct eurovision_t {
     Set states;
