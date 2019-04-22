@@ -27,7 +27,9 @@ State stateCreate(int id, const char* name, const char* song){
         return NULL;
     }
     ptr->id = id;
+    ptr->name = malloc(sizeof(char)*strlen(name)+1);
     strcpy(ptr->name,name);
+    ptr->song = malloc(sizeof(char)*strlen(song)+1);
     strcpy(ptr->song,song);
     ptr->votes = setCreate(copyStateVote,freeStateVote,compareStateVote);
 }

@@ -297,6 +297,11 @@ List eurovisionRunContest(Eurovision eurovision, int audiencePercent) {
     }
 
 
-
+    free(stateIds);
+    for(int j=0;j<numOfStates;j++){
+        free(stateNames[j]);
+    }
+    free(stateNames);
+    setDestroy(finalScores);
     return finalistNames;
 }
