@@ -16,6 +16,7 @@ Judge judgeCreate(int id, const char *name,int *votes){
     }
     ptrJudge->id=id;
     ptrJudge->name = malloc(sizeof(char)*strlen(name)+1);
+    if (ptrJudge->name==NULL) return NULL;
     strcpy(ptrJudge->name,name);
     int* ptrVotes = malloc(sizeof(int)*JUDGE_NUMBER_OF_VOTES);
     if(!ptrVotes){

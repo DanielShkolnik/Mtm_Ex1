@@ -9,6 +9,8 @@
 #define ASCII_SPACE_VALUE 32
 #define DUSPWA 12
 #define SECOND_PLACE 10
+#define PERCENTAGE 100
+
 static EurovisionResult AddOrRemoveVote(Eurovision eurovision, int stateGiver,
                                         int stateTaker,VoteAddOrRemove choice);
 static int getScoreByPlace(int place);
@@ -271,6 +273,7 @@ static void freeFinalistNames(ListElement stateScore) {
 
 
 List eurovisionRunContest(Eurovision eurovision, int audiencePercent) {
+    if (audiencePercent<0 || audiencePercent>100 || eurovision==NULL) return NULL;
     int numOfStates=setGetSize(eurovision->states);
     int* stateIds=malloc(sizeof(int)*numOfStates);
     char** stateNames=malloc(sizeof(char*)*numOfStates);
@@ -279,24 +282,26 @@ List eurovisionRunContest(Eurovision eurovision, int audiencePercent) {
     SET_FOREACH(State ,stateIterator,eurovision->states) {
         stateIds[i]=stateGetId(stateIterator);
         stateNames[i]=malloc(sizeof(char)*strlen(stateGetName(stateIterator))+1);
+        if (stateNames[i]==NULL) return NULL;
         strcpy(stateNames[i],stateGetName(stateIterator));
         i++;
     }
     Set finalScores=setCreate(copyStateScore,freeStateScore,compareStateScores);
+    if (finalScores==NULL) return NULL;
     double averageOfStateScores=0,averageOfJudgeScores=0;
     for (i=0; i<numOfStates; i++) {
         averageOfStateScores=getAverageOfStateScores(eurovision->states,stateIds[i]);
         averageOfJudgeScores=getAverageOfJudgeScore(eurovision->judges,stateIds[i]);
         StateScore tmp=stateScoreCreate(stateIds[i],stateNames[i],averageOfStateScores,averageOfJudgeScores,audiencePercent);
+        if (tmp==NULL) return NULL;
         setAdd(finalScores,tmp);
         stateScoreDestroy(tmp);
     }
     List finalistNames=listCreate(copyFinalistNames,freeFinalistNames);
+    if (finalistNames==NULL) return NULL;
     SET_FOREACH(StateScore ,stateScoreIterator,finalScores) {
         listInsertLast(finalistNames,stateScoreGetName(stateScoreIterator));
     }
-
-
     free(stateIds);
     for(int j=0;j<numOfStates;j++){
         free(stateNames[j]);
@@ -304,4 +309,15 @@ List eurovisionRunContest(Eurovision eurovision, int audiencePercent) {
     free(stateNames);
     setDestroy(finalScores);
     return finalistNames;
+}
+
+
+List eurovisionRunAudienceFavorite(Eurovision eurovision){
+    return eurovisionRunContest(eurovision,PERCENTAGE);
+}
+
+
+List eurovisionRunGetFriendlyStates(Eurovision eurovision){
+
+
 }
