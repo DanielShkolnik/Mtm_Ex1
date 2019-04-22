@@ -318,6 +318,9 @@ List eurovisionRunAudienceFavorite(Eurovision eurovision){
 
 
 List eurovisionRunGetFriendlyStates(Eurovision eurovision){
+    SET_FOREACH(State ,stateIterator,eurovision->states){
+
+    }
 
 
 }
