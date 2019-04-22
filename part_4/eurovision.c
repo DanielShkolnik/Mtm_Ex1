@@ -260,7 +260,7 @@ static int compareStateScores(SetElement stateScore1, SetElement stateScore2) {
 
 static ListElement copyFinalistNames(ListElement name) {
     assert(name!=NULL);
-    char* newName=NULL;
+    char* newName= malloc(sizeof(char)*strlen((char*)name)+1);
     strcpy(newName,(char*)name);
     return newName;
 }
@@ -278,6 +278,7 @@ List eurovisionRunContest(Eurovision eurovision, int audiencePercent) {
     int i=0;
     SET_FOREACH(State ,stateIterator,eurovision->states) {
         stateIds[i]=stateGetId(stateIterator);
+        stateNames[i]=malloc(sizeof(char)*strlen(stateGetName(stateIterator))+1);
         strcpy(stateNames[i],stateGetName(stateIterator));
         i++;
     }
@@ -290,6 +291,12 @@ List eurovisionRunContest(Eurovision eurovision, int audiencePercent) {
         setAdd(finalScores,tmp);
         stateScoreDestroy(tmp);
     }
-    List finalistNames=listCreate()
+    List finalistNames=listCreate(copyFinalistNames,freeFinalistNames);
+    SET_FOREACH(StateScore ,stateScoreIterator,finalScores) {
+        listInsertLast(finalistNames,stateScoreGetName(stateScoreIterator));
+    }
 
+
+
+    return finalistNames;
 }
