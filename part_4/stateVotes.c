@@ -17,7 +17,9 @@ StateVote stateVoteCreate(int stateId){
 
 StateVote stateVoteCopy(StateVote stateVote){
     if(!stateVote) return NULL;
-    return stateVoteCreate(stateVote->stateId);
+    StateVote newStateVote = stateVoteCreate(stateVote->stateId);
+    newStateVote->votes = stateVote->votes;
+    return newStateVote;
 }
 
 void stateVoteDestroy(StateVote stateVote){
@@ -50,5 +52,5 @@ int stateVoteGetId(StateVote vote){
 }
 
 int stateVoteGetVote(StateVote vote){
-    return vote->stateId;
+    return vote->votes;
 }

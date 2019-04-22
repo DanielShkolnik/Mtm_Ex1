@@ -79,8 +79,8 @@ StateResult stateAddOrRemoveVote(State state, int voteStateId,VoteAddOrRemove ch
     }
     if(choice==VOTE_ADD){
         StateVote tmp = stateVoteCreate(voteStateId);
-        setAdd(state->votes,tmp);
         stateVoteAddVote(tmp);
+        setAdd(state->votes,tmp);
         stateVoteDestroy(tmp);
     }
     return STATE_SUCCESS;
@@ -108,7 +108,6 @@ int* stateGetVotes(State state){
             setRemove(tmp,maxStateVote);
         }
     }
-    free(votes);
     setDestroy(tmp);
     stateVoteDestroy(maxStateVote);
     return votes;
@@ -117,5 +116,8 @@ int* stateGetVotes(State state){
 char* stateGetName(State state) {
     assert(state!=NULL);
     return state->name;
+}
+int stateGetVote(State state){
+    return stateVoteGetVote(setGetFirst(state->votes));
 }
 

@@ -28,4 +28,5 @@ StateResult stateRemoveVotedState(State state, State remove);
 StateResult stateAddOrRemoveVote(State state, int voteStateId, VoteAddOrRemove choice);
 char* stateGetName(State state);
 int* stateGetVotes(State state);
+int stateGetVote(State state);
 #endif //PART_4_STATE_H

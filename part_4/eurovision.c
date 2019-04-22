@@ -239,6 +239,8 @@ static EurovisionResult AddOrRemoveVote(Eurovision eurovision, int stateGiver,
             break;
         }
     }
+    stateDestroy(tmp1);
+    stateDestroy(tmp2);
     return EUROVISION_SUCCESS;
 }
 // the two functions below seem similar but the only difference is in the macro SER_FOREACH.
