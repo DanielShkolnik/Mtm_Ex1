@@ -76,7 +76,11 @@ static bool checkValidStateId(Set states ,const int* array) {
 
 static bool checkString(const char* str){
     for (int i=0; str[i]!=0 ; i++) {
-        if ((str[i]<ASCII_SMALL_A_VALUE || str[i]>ASCII_SMALL_Z_VALUE) || str[i]!=ASCII_SPACE_VALUE) return false;
+        if ((str[i]>=ASCII_SMALL_A_VALUE && str[i]<=ASCII_SMALL_Z_VALUE) || str[i]==ASCII_SPACE_VALUE){
+            continue;
+        }else{
+            return false;
+        }
     }
     return true;
 }
@@ -226,6 +230,9 @@ static EurovisionResult AddOrRemoveVote(Eurovision eurovision, int stateGiver,
     if(!eurovision) return EUROVISION_NULL_ARGUMENT;
     if(stateGiver < 0 || stateTaker < 0) return EUROVISION_INVALID_ID;
     if(stateGiver==stateTaker) return EUROVISION_SAME_STATE;
+    State tmp1 = stateCreate(stateGiver,REMOVE_STATE,REMOVE_STATE);
+    State tmp2 = stateCreate(stateTaker,REMOVE_STATE,REMOVE_STATE);
+    if(!setIsIn(eurovision->states,tmp1) || !setIsIn(eurovision->states,tmp2)) return EUROVISION_STATE_NOT_EXIST;
     SET_FOREACH(State,state,eurovision->states){
         if(stateGetId(state)==stateGiver){
             stateAddOrRemoveVote(state,stateTaker,choice);
