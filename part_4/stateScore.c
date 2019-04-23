@@ -33,7 +33,8 @@ int stateScoreCompare(StateScore stateScore1, StateScore stateScore2) {
     if (compareResult==0) {
         return stateScore1->id-stateScore2->id;
     }
-    return (int)compareResult;
+    if(compareResult<0) return -1;
+    return 1;
 }
 
 StateScore stateScoreCopy(StateScore stateScore){

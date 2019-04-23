@@ -39,7 +39,9 @@ State stateCreate(int id, const char* name, const char* song){
 }
 State stateCopy(State state){
     if(!state) return NULL;
-    return stateCreate(state->id,state->name,state->song);
+    State ptr = stateCreate(state->id,state->name,state->song);
+    ptr->votes = setCopy(state->votes);
+    return ptr;
 }
 
 void stateDestroy(State state){
@@ -120,7 +122,7 @@ char* stateGetName(State state) {
 }
 int stateGetVote(State state){
     StateVote vote = setGetFirst(state->votes);
-    if(!vote) return NULL;
+    if(!vote) return 0;
     return stateVoteGetVote(vote);
 }
 

@@ -256,7 +256,7 @@ static double getAverageOfStateScores(Set states,int stateId){
             }
         }
     }
-    return (double)sum/numberOfStates;
+    return (double)sum;//If average NEED EDIT
 }
 
 
@@ -271,7 +271,7 @@ static double getAverageOfJudgeScore(Set judges, int stateId){
             }
         }
     }
-    return (double)sum/numberOfJudges;
+    return (double)sum;//If average NEED EDIT
 }
 
 static int getScoreByPlace(int place){
@@ -332,7 +332,6 @@ List eurovisionRunContest(Eurovision eurovision, int audiencePercent) {
     }
     List finalistNames=listCreate(copyFinalistNames,freeFinalistNames);
     if (finalistNames==NULL) return NULL;
-    printf("final scores Tets length:%d\n",setGetSize(finalScores));
     SET_FOREACH(StateScore ,stateScoreIterator,finalScores) {
         listInsertLast(finalistNames,stateScoreGetName(stateScoreIterator));
     }
@@ -416,17 +415,19 @@ List eurovisionRunGetFriendlyStates(Eurovision eurovision){
         int *topVoteId1Array,*topVoteId2Array;
         topVoteId1Array=stateGetVotes(stateIterator);
         topVoteId1=topVoteId1Array[0];
-        State stateTmp=getStateById(eurovision->states,topVoteId1);
-        topVoteId2Array=stateGetVotes(stateTmp);
-        topVoteId2=topVoteId2Array[0];
-        if (topVoteId1>=0 && topVoteId2>=0 && topVoteId1==topVoteId2) {
-            FriendlyStates friendlyStatesTmp=friendlyStatesCreate(stateGetName(stateIterator),stateGetName(stateTmp));
-            setAdd(friendlyStatesSet,friendlyStatesTmp);
-            friendlyStatesDestroy(friendlyStatesTmp);
+        if(topVoteId1>=0){
+            State stateTmp=getStateById(eurovision->states,topVoteId1);
+            topVoteId2Array=stateGetVotes(stateTmp);
+            topVoteId2=topVoteId2Array[0];
+            if (topVoteId2>=0 && topVoteId1==stateGetId(stateTmp) && topVoteId2==stateGetId(stateIterator)) {
+                FriendlyStates friendlyStatesTmp=friendlyStatesCreate(stateGetName(stateIterator),stateGetName(stateTmp));
+                setAdd(friendlyStatesSet,friendlyStatesTmp);
+                friendlyStatesDestroy(friendlyStatesTmp);
+            }
+            //stateDestroy(stateTmp);
+            free(topVoteId2Array);
         }
-        stateDestroy(stateTmp);
         free(topVoteId1Array);
-        free(topVoteId2Array);
     }
     List friendlyStatesList=listCreate(copyFriendlyStatesList,freeFriendlyStatesList);
     if (friendlyStatesList==NULL) return NULL;
