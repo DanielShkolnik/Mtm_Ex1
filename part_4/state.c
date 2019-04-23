@@ -40,6 +40,7 @@ State stateCreate(int id, const char* name, const char* song){
 State stateCopy(State state){
     if(!state) return NULL;
     State ptr = stateCreate(state->id,state->name,state->song);
+    setDestroy(ptr->votes);
     ptr->votes = setCopy(state->votes);
     return ptr;
 }
