@@ -118,6 +118,8 @@ char* stateGetName(State state) {
     return state->name;
 }
 int stateGetVote(State state){
-    return stateVoteGetVote(setGetFirst(state->votes));
+    StateVote vote = setGetFirst(state->votes);
+    if(!vote) return NULL;
+    return stateVoteGetVote(vote);
 }
 

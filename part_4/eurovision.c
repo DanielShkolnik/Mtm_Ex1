@@ -332,6 +332,7 @@ List eurovisionRunContest(Eurovision eurovision, int audiencePercent) {
     }
     List finalistNames=listCreate(copyFinalistNames,freeFinalistNames);
     if (finalistNames==NULL) return NULL;
+    printf("final scores Tets length:%d\n",setGetSize(finalScores));
     SET_FOREACH(StateScore ,stateScoreIterator,finalScores) {
         listInsertLast(finalistNames,stateScoreGetName(stateScoreIterator));
     }
