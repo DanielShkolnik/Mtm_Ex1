@@ -63,8 +63,8 @@ int stateGetId(State state){
 StateResult stateRemoveVotedState(State state, State remove){
     StateVote tmp = stateVoteCreate(remove->id);
     SetResult result = setRemove(state->votes,tmp);
-    if(result == SET_ITEM_DOES_NOT_EXIST) return STATE_ITEM_DOES_NOT_EXIST;
     stateVoteDestroy(tmp);
+    if(result == SET_ITEM_DOES_NOT_EXIST) return STATE_ITEM_DOES_NOT_EXIST;
     return STATE_SUCCESS;
 }
 

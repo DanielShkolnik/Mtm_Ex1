@@ -200,7 +200,10 @@ EurovisionResult eurovisionRemoveState(Eurovision eurovision, int stateId){
     if(stateId<0) return EUROVISION_INVALID_ID;
     State tmp = stateCreate(stateId,REMOVE_STATE,REMOVE_STATE);
     SetResult result = setRemove(eurovision->states,tmp);
-    if(result==SET_ITEM_DOES_NOT_EXIST) return EUROVISION_STATE_NOT_EXIST;
+    if(result==SET_ITEM_DOES_NOT_EXIST){
+        stateDestroy(tmp);
+        return EUROVISION_STATE_NOT_EXIST;
+    }
     int size = setGetSize(eurovision->judges);
     Judge* removeJudges = malloc(sizeof(Judge)*size);
     initializeJudgeArray(removeJudges,size);

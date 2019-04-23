@@ -13,7 +13,7 @@
 
 int main(int argc, char *argv[]) {
     TEST(testAddState)
-    //TEST(testRemoveState)
+    TEST(testRemoveState)
     //TEST(testAddJudge)
     //TEST(testRemoveJudge)
     //TEST(testAddVote)
