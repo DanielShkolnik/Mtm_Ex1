@@ -37,6 +37,7 @@ Node NodeCreate(MapKeyElement key,
     ptr->freeKey = freeKeyElement;
     ptr->compareKeys = compareKeyElements;
     ptr->next = NULL;
+    return ptr;
 }
 
 Node NodeGetNext(Node node) {
