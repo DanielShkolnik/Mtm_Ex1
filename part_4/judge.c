@@ -24,6 +24,7 @@ Judge judgeCreate(int id, const char *name,int *votes){
     }
     copyArray(ptrVotes, votes);
     ptrJudge->votes=ptrVotes;
+    return ptrJudge;
 }
 
 static void copyArray (int* votesCopy, const int* votes) {

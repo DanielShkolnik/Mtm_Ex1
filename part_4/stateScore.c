@@ -18,6 +18,7 @@ StateScore stateScoreCreate(int id, char* name, double stateVotesAverage, double
     if (ptr->name==NULL) return NULL;
     strcpy(ptr->name,name);
     ptr->totalScore=(stateVotesAverage*audiencePercent)/PERCENTAGE+(judgesVotesAverage*(PERCENTAGE-audiencePercent))/PERCENTAGE;
+    return ptr;
 }
 
 StateScoreResult stateScoreDestroy(StateScore stateScore){
@@ -46,6 +47,7 @@ StateScore stateScoreCopy(StateScore stateScore){
     if (ptr->name==NULL) return NULL;
     strcpy(ptr->name,stateScore->name);
     ptr->totalScore=stateScore->totalScore;
+    return ptr;
 }
 
 char* stateScoreGetName(StateScore stateScore) {
