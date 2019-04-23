@@ -7,8 +7,8 @@
 #include <string.h>
 #include <stdbool.h>
 #include <assert.h>
-#include "list.h"
-#include "eurovision.h"
+#include "../list.h"
+#include "../eurovision.h"
 #include "eurovisionTests.h"
 
 #define POINTS_OPTIONS_NUMBER 10
