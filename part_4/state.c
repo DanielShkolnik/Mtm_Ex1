@@ -35,6 +35,7 @@ State stateCreate(int id, const char* name, const char* song){
     if(!ptr->song) return NULL;
     strcpy(ptr->song,song);
     ptr->votes = setCreate(copyStateVote,freeStateVote,compareStateVote);
+    return ptr;
 }
 State stateCopy(State state){
     if(!state) return NULL;

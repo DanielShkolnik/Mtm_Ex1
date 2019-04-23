@@ -23,6 +23,7 @@ FriendlyStates friendlyStatesCreate(const char* nameState1, const char* nameStat
         strcpy(ptr->nameState2,nameState1);
     }
     if (ptr->nameState1==NULL || ptr->nameState2==NULL) return NULL;
+    return ptr;
 }
 
 
