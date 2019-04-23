@@ -123,6 +123,7 @@ Eurovision eurovisionCreate(){
     if(!ptr) return NULL;
     ptr->states = setCreate(copyState,freeState,compareState);
     ptr->judges = setCreate(copyJudge,freeJudge,compareJudge);
+    return ptr;
 }
 
 void eurovisionDestroy(Eurovision eurovision) {
@@ -247,7 +248,7 @@ static EurovisionResult AddOrRemoveVote(Eurovision eurovision, int stateGiver,
 // we didnt want to put this whole function in macro and we cant change SET_FOREACH.
 static double getAverageOfStateScores(Set states,int stateId){
     int sum = 0;
-    int numberOfStates = setGetSize(states);
+    //int numberOfStates = setGetSize(states);
     SET_FOREACH(State,stateIterator,states){
         int* votes = stateGetVotes(stateIterator);
         for(int i=0;i<STATE_NUMBER_OF_VOTES;i++){
@@ -262,7 +263,7 @@ static double getAverageOfStateScores(Set states,int stateId){
 
 static double getAverageOfJudgeScore(Set judges, int stateId){
     int sum = 0;
-    int numberOfJudges = setGetSize(judges);
+    //int numberOfJudges = setGetSize(judges);
     SET_FOREACH(Judge,judgeIterator,judges){
         int* votes = judgeGetVotes(judgeIterator);
         for(int i=0;i<JUDGE_NUMBER_OF_VOTES;i++){

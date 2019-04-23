@@ -32,6 +32,7 @@ FriendlyStatesResult friendlyStatesDestroy(FriendlyStates friendlyStates){
     free(friendlyStates->nameState1);
     free(friendlyStates->nameState2);
     free(friendlyStates);
+    return FRIENDLYSTATES_SUCCESS;
 }
 
 int friendlyStatesCompare(FriendlyStates friendlyStates1, FriendlyStates friendlyStates2) {
