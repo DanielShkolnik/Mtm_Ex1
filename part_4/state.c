@@ -1,6 +1,6 @@
 #include "state.h"
 #include "stateVotes.h"
-#define JUDGE_NUMBER_OF_VOTES 10
+#define STATE_NUMBER_OF_VOTES 10
 struct State_t{
     int id;
     char* name;
@@ -90,12 +90,12 @@ StateResult stateAddOrRemoveVote(State state, int voteStateId,VoteAddOrRemove ch
 }
 
 int* stateGetVotes(State state){
-    int* votes = malloc(sizeof(int)*JUDGE_NUMBER_OF_VOTES);
+    int* votes = malloc(sizeof(int)*STATE_NUMBER_OF_VOTES);
     Set tmp = setCopy(state->votes);
     if(!votes || !tmp) return NULL;
     int max = 0;
     StateVote maxStateVote = NULL;
-    for(int i=0;i<JUDGE_NUMBER_OF_VOTES;i++){
+    for(int i=0;i<STATE_NUMBER_OF_VOTES;i++){
         SET_FOREACH(StateVote,voteIterator,tmp){
             if(stateVoteGetVote(voteIterator) > max){
                 max=stateVoteGetVote(voteIterator);

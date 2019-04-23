@@ -306,7 +306,7 @@ static void freeFinalistNames(ListElement stateScore) {
 
 
 List eurovisionRunContest(Eurovision eurovision, int audiencePercent) {
-    if (audiencePercent<0 || audiencePercent>100 || eurovision==NULL) return NULL;
+    if (audiencePercent<0 || audiencePercent>PERCENTAGE || eurovision==NULL) return NULL;
     int numOfStates=setGetSize(eurovision->states);
     int* stateIds=malloc(sizeof(int)*numOfStates);
     char** stateNames=malloc(sizeof(char*)*numOfStates);
@@ -386,7 +386,7 @@ static char* generateFriendlyStatesString(FriendlyStates friendlyStates) {
     strcpy(newName2,friendlyStatesGetName2(friendlyStates));
     char* newStr=" - ";
     char* finalName=malloc(sizeof(char)*(strlen(newName1)+strlen(newName2)+strlen(newStr))+1);
-    strncat(finalName,newName1,strlen(newName1));
+    strcpy(finalName,newName1);
     strncat(finalName,newStr,strlen(newStr));
     strncat(finalName,newName2,strlen(newName2));
     free(newName1);
