@@ -156,11 +156,14 @@ EurovisionResult eurovisionAddState(Eurovision eurovision, int stateId,
     if(stateId < 0) return EUROVISION_INVALID_ID;
     if(!checkString(stateName) || !checkString(songName)) return EUROVISION_INVALID_NAME;
     State tmp = stateCreate(stateId,stateName,songName);
-    if(!tmp) return EUROVISION_OUT_OF_MEMORY;
+    if(!tmp){
+        stateDestroy(tmp);
+        return EUROVISION_OUT_OF_MEMORY;
+    }
     SetResult result = setAdd(eurovision->states,tmp);
+    stateDestroy(tmp);
     if(result == SET_ITEM_ALREADY_EXISTS) return EUROVISION_STATE_ALREADY_EXIST;
     if(result == SET_OUT_OF_MEMORY) return EUROVISION_OUT_OF_MEMORY;
-    stateDestroy(tmp);
     return EUROVISION_SUCCESS;
 }
 
