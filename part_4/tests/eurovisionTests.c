@@ -47,6 +47,7 @@ static void setupEurovisionStates(Eurovision eurovision) {
   eurovisionAddState(eurovision, 13, "ireland", "twenty two");
   eurovisionAddState(eurovision, 14, "netherlands", "arcade");
   eurovisionAddState(eurovision, 15, "sweden", "too late for love");
+  eurovisionAddState(eurovision, 16, "swedenn", "too late for love n");
 }
 
 static int *makeJudgeResults(int id0, int id1, int id2, int id3, int id4,
@@ -88,6 +89,9 @@ static void setupEurovisionJudges(Eurovision eurovision) {
   int *results;
   results = makeJudgeResults( 0,  1,  2, 3, 4, 5, 6,  7, 8, 9);
   eurovisionAddJudge(eurovision, 0, "olsen", results);
+  free(results);
+  results = makeJudgeResults( 0,  16,  2, 3, 4, 5, 6,  7, 8, 9);
+  eurovisionAddJudge(eurovision, 3, "newolsen", results);
   free(results);
   results = makeJudgeResults(14, 13, 10, 8, 4, 5, 6, 15, 0, 2);
   eurovisionAddJudge(eurovision, 1, "tanel", results);
@@ -274,6 +278,7 @@ bool testRunContest() {
   setupEurovisionStates(eurovision);
   setupEurovisionJudges(eurovision);
   setupEurovisionVotes2(eurovision);
+  CHECK(eurovisionRemoveState(eurovision, 16), EUROVISION_SUCCESS);
 
   List ranking = eurovisionRunContest(eurovision, 40);
   CHECK(listGetSize(ranking), 16);
@@ -298,6 +303,7 @@ bool testRunAudienceFavorite() {
   setupEurovisionStates(eurovision);
   setupEurovisionJudges(eurovision);
   setupEurovisionVotes2(eurovision);
+  CHECK(eurovisionRemoveState(eurovision, 16), EUROVISION_SUCCESS);
 
   List ranking = eurovisionRunAudienceFavorite(eurovision);
   CHECK(listGetSize(ranking), 16);

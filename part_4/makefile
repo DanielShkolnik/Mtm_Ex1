@@ -1,5 +1,5 @@
 eurovision: eurovision.o friendlyStates.o judge.o state.o stateScore.o stateVotes.o eurovisionTests.o eurovisionTestsMain.o test_utilities.o
-    gcc eurovision.o friendlyStates.o judge.o state.o stateScore.o stateVotes.o eurovisionTests.o eurovisionTestsMain.o test_utilities.o -o eurovision -l libmtm.a
+    gcc eurovision.o friendlyStates.o judge.o state.o stateScore.o stateVotes.o eurovisionTests.o eurovisionTestsMain.o test_utilities.o -o eurovision -lmtm
 
 eurovision.o: eurovision.c eurovision.h
     gcc -c eurovision.c
