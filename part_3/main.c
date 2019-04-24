@@ -5,7 +5,7 @@
 #include <string.h>
 #include <math.h>
 #include <stdbool.h>
-#include "../mtm_map/map.h"
+#include "map.h"
 #include "test_utilities.h"
 
 

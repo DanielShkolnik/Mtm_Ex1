@@ -18,7 +18,7 @@ struct Node_t{
     compareNodeKeyElements compareKeys;
 };
 
-Node NodeCreate(MapKeyElement key,
+Node nodeCreate(MapKeyElement key,
                 MapDataElement data,
                 copyMapDataElements copyDataElement,
                 copyMapKeyElements copyKeyElement,
@@ -40,35 +40,35 @@ Node NodeCreate(MapKeyElement key,
     return ptr;
 }
 
-Node NodeGetNext(Node node) {
+Node nodeGetNext(Node node) {
     if (node==NULL) return NULL;
     return node->next;
 }
 
-NodeResult NodeSetKey(Node node, MapKeyElement key) {
+NodeResult nodeSetKey(Node node, MapKeyElement key) {
     if (node==NULL || key==NULL) return NODE_NULL_ARGUMENT;
     node->key=key;
     return NODE_SUCCESS;
 }
 
-NodeResult NodeSetData(Node node, MapDataElement data) {
+NodeResult nodeSetData(Node node, MapDataElement data) {
     if (node==NULL || data==NULL) return NODE_NULL_ARGUMENT;
     node->freeData(node->data);
     node->data = node->copyData(data);
     return NODE_SUCCESS;
 }
 
-MapKeyElement NodeGetKey(Node node) {
+MapKeyElement nodeGetKey(Node node) {
     if (node==NULL) return NULL;
     return node->key;
 }
 
-MapDataElement NodeGetData(Node node) {
+MapDataElement nodeGetData(Node node) {
     if (node==NULL) return NULL;
     return node->data;
 }
 
-NodeResult NodeAdd(Node node, MapKeyElement key,
+NodeResult nodeAdd(Node node, MapKeyElement key,
                    MapDataElement data,
                    copyMapDataElements copyDataElement,
                    copyMapKeyElements copyKeyElement,
@@ -83,7 +83,7 @@ NodeResult NodeAdd(Node node, MapKeyElement key,
         node = node->next;
     }
     Node tmp = node->next;
-    node->next = NodeCreate( key, data, copyDataElement, copyKeyElement, freeDataElement, freeKeyElement, compareKeyElements);
+    node->next = nodeCreate( key, data, copyDataElement, copyKeyElement, freeDataElement, freeKeyElement, compareKeyElements);
     (node->next)->next = tmp;
     if (node->next == NULL) {
         return NODE_OUT_OF_MEMORY;
@@ -91,7 +91,7 @@ NodeResult NodeAdd(Node node, MapKeyElement key,
     return NODE_SUCCESS;
 }
 
-NodeResult NodeRemove(Node node ,MapKeyElement key) {
+NodeResult nodeRemove(Node node ,MapKeyElement key) {
     if (node==NULL || key==NULL) return NODE_NULL_ARGUMENT;
     Node prevNode = node;
     Node currentNode = node->next;
@@ -121,7 +121,7 @@ static NodeResult freeNode (Node node){
     return NODE_SUCCESS;
 }
 
-NodeResult NodeDestroy(Node head){
+NodeResult nodeDestroy(Node head){
     if(head==NULL) return NODE_NULL_ARGUMENT;
     Node nodeCurrent=head->next;
     freeNodeHead(head);
@@ -133,15 +133,15 @@ NodeResult NodeDestroy(Node head){
     return NODE_SUCCESS;
 }
 
-Node NodeCopy(Node node){
+Node nodeCopy(Node node){
     if(node==NULL) return NULL;
-    Node new = NodeCreate(node->key,node->data,node->copyData,node->copyKey,node->freeData,node->freeKey,node->compareKeys);
+    Node new = nodeCreate(node->key,node->data,node->copyData,node->copyKey,node->freeData,node->freeKey,node->compareKeys);
     Node head = new;
     node = node->next;
     while (node!=NULL){
-        new->next = NodeCreate(node->key,node->data,node->copyData,node->copyKey,node->freeData,node->freeKey,node->compareKeys);
+        new->next = nodeCreate(node->key,node->data,node->copyData,node->copyKey,node->freeData,node->freeKey,node->compareKeys);
         if(new->next==NULL){
-            NodeDestroy(head);
+            nodeDestroy(head);
             return NULL;
         }
         new = new->next;
@@ -149,7 +149,7 @@ Node NodeCopy(Node node){
     }
     return head;
 }
-Node NodeGetNode(Node node, MapKeyElement key){
+Node nodeGetNode(Node node, MapKeyElement key){
     while (node!=NULL){
         if(node->compareKeys(node->key,key)==0){
             return node;

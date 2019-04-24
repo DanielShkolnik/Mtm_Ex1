@@ -59,7 +59,7 @@ static Node creatHead(copyMapDataElements copyDataElement,
     if(headData==NULL) return NULL;
     *headData = -1;
     *headKey = -1;
-    Node node = NodeCreate(headKey,headData,copyDataElement,copyKeyElement,
+    Node node = nodeCreate(headKey,headData,copyDataElement,copyKeyElement,
                             freeDataElement,freeKeyElement,compareKeyElements);
     free(headKey);
     free(headData);
@@ -71,17 +71,17 @@ static Node creatHead(copyMapDataElements copyDataElement,
 
 void mapDestroy(Map map){
     if (map==NULL) return;
-    NodeDestroy(map->listHead);
+    nodeDestroy(map->listHead);
     free(map);
 }
 
 int mapGetSize(Map map) {
     if (map==NULL) return -1;
-    Node currentNode=NodeGetNext(map->listHead);
+    Node currentNode=nodeGetNext(map->listHead);
     int counter=0;
     while (currentNode!=NULL) {
       counter++;
-      currentNode=NodeGetNext(currentNode);
+      currentNode=nodeGetNext(currentNode);
     }
     return counter;
 }
@@ -90,28 +90,28 @@ Map mapCopy(Map map){
     if (map==NULL) return  NULL;
     Map newMap;
     newMap=mapCreate(map->copyData,map->copyKey,map->freeData,map->freeKey,map->compareKeys);
-    NodeDestroy(newMap->listHead);
-    newMap->listHead=NodeCopy(map->listHead);
+    nodeDestroy(newMap->listHead);
+    newMap->listHead=nodeCopy(map->listHead);
     return newMap;
 }
 
 MapResult mapPut(Map map, MapKeyElement keyElement, MapDataElement dataElement){
     if (map==NULL || keyElement==NULL || dataElement==NULL) return MAP_NULL_ARGUMENT;
     map->iterator = NULL;
-    Node current = NodeGetNext(map->listHead);
-    while(NodeGetNext(current) !=NULL){
-        if(map->compareKeys(NodeGetKey(current),keyElement)== 0){
-            NodeSetData(current,dataElement);
+    Node current = nodeGetNext(map->listHead);
+    while(nodeGetNext(current) !=NULL){
+        if(map->compareKeys(nodeGetKey(current),keyElement)== 0){
+            nodeSetData(current,dataElement);
             return MAP_SUCCESS;
         }
-        current = NodeGetNext(current);
+        current = nodeGetNext(current);
     }
-    if(current!=NULL && map->compareKeys(NodeGetKey(current),keyElement)== 0){
-        NodeSetData(current,dataElement);
+    if(current!=NULL && map->compareKeys(nodeGetKey(current),keyElement)== 0){
+        nodeSetData(current,dataElement);
         return MAP_SUCCESS;
     }
     else {
-        NodeResult result = NodeAdd(map->listHead,keyElement,dataElement,map->copyData,map->copyKey,map->freeData,map->freeKey,map->compareKeys);
+        NodeResult result = nodeAdd(map->listHead,keyElement,dataElement,map->copyData,map->copyKey,map->freeData,map->freeKey,map->compareKeys);
         if(result == NODE_OUT_OF_MEMORY) return MAP_OUT_OF_MEMORY;
         return MAP_SUCCESS;
     }
@@ -119,12 +119,12 @@ MapResult mapPut(Map map, MapKeyElement keyElement, MapDataElement dataElement){
 
 MapKeyElement mapGetFirst(Map map){
     if(!map) return NULL;
-    Node first = NodeGetNext(map->listHead);
+    Node first = nodeGetNext(map->listHead);
     if(first==NULL){
         return NULL;
     }
-    map->iterator = NodeGetKey(first);
-    return NodeGetKey(first);
+    map->iterator = nodeGetKey(first);
+    return nodeGetKey(first);
 }
 
 MapKeyElement mapGetNext(Map map){
@@ -132,9 +132,9 @@ MapKeyElement mapGetNext(Map map){
     if(map->iterator==NULL){
         return NULL;
     }
-    Node tmp = NodeGetNode(NodeGetNext(map->listHead),map->iterator);
-    map->iterator = NodeGetKey(NodeGetNext(tmp));
-    return NodeGetKey(NodeGetNext(tmp));
+    Node tmp = nodeGetNode(nodeGetNext(map->listHead),map->iterator);
+    map->iterator = nodeGetKey(nodeGetNext(tmp));
+    return nodeGetKey(nodeGetNext(tmp));
 }
 
 bool mapContains(Map map, MapKeyElement element) {
@@ -145,12 +145,12 @@ bool mapContains(Map map, MapKeyElement element) {
 
 MapDataElement mapGet(Map map, MapKeyElement keyElement) {
     if (map==NULL || keyElement==NULL) return NULL;
-    Node currentNode=NodeGetNext(map->listHead);
+    Node currentNode=nodeGetNext(map->listHead);
     while (currentNode!=NULL) {
-        if ((map->compareKeys(NodeGetKey(currentNode),keyElement))==0) {
-            return NodeGetData(currentNode);
+        if ((map->compareKeys(nodeGetKey(currentNode),keyElement))==0) {
+            return nodeGetData(currentNode);
         }
-        currentNode=NodeGetNext(currentNode);
+        currentNode=nodeGetNext(currentNode);
     }
     return NULL;
 }
@@ -158,13 +158,13 @@ MapDataElement mapGet(Map map, MapKeyElement keyElement) {
 MapResult mapRemove(Map map, MapKeyElement keyElement) {
     if (map==NULL || keyElement==NULL) return MAP_NULL_ARGUMENT;
     if ((mapContains(map, keyElement))==false) return MAP_ITEM_DOES_NOT_EXIST;
-    NodeRemove(map->listHead,keyElement);
+    nodeRemove(map->listHead,keyElement);
     return MAP_SUCCESS;
 }
 
 MapResult mapClear(Map map) {
     if (map==NULL) return MAP_NULL_ARGUMENT;
-    NodeDestroy(map->listHead);
+    nodeDestroy(map->listHead);
     map->listHead = NULL;
     return MAP_SUCCESS;
 }
