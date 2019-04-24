@@ -1,30 +1,38 @@
-eurovision: eurovision.o friendlyStates.o judge.o state.o stateScore.o stateVotes.o eurovisionTests.o eurovisionTestsMain.o test_utilities.o
-    gcc eurovision.o friendlyStates.o judge.o state.o stateScore.o stateVotes.o eurovisionTests.o eurovisionTestsMain.o test_utilities.o -o eurovision -lmtm
+CC = gcc
+OBJS = eurovision.o friendlyStates.o judge.o state.o stateScore.o stateVotes.o eurovisionTests.o eurovisionTestsMain.o test_utilities.o
+EXEC = eurovision
+DEBUG_FLAG = -g
+COMP_FLAG = -std=c99 -Wall -Werror -L. -lmtm
+
+$(EXEC) : $(OBJS)
+    $(CC) $(DEBUG_FLAG) $(OBJS) -o $@
 
 eurovision.o: eurovision.c eurovision.h
-    gcc -c eurovision.c
+    $(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
 
 friendlyStates.o: friendlyStates.c friendlyStates.h
-    gcc -c friendlyStates.c
+    $(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
 
 judge.o: judge.c judge.h
-    gcc -c judge.c
+    $(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
 
 state.o: state.c state.h
-    gcc -c state.c
+    $(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
 
 stateScore.o: stateScore.c stateScore.h
-    gcc -c stateScore.c
+    $(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
 
 stateVotes.o: stateVotes.c stateVotes.h
-    gcc -c stateVotes.c
+    $(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
 
 eurovisionTests.o: eurovisionTests.c eurovisionTests.h
-    gcc -c eurovisionTests.c
+    $(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
 
 eurovisionTestsMain.o: eurovisionTestsMain.c
-    gcc -c eurovisionTestsMain.c
+    $(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
 
 test_utilities.o: test_utilities.h
-    gcc -c test_utilities.h
+    $(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
 
+clean:
+    rm -f $(OBJS) $(EXEC)
