@@ -11,29 +11,29 @@ typedef enum {
     NODE_NULL_ARGUMENT,
 } NodeResult;
 //test
-Node NodeGetNext(Node node);
-MapKeyElement NodeGetKey(Node node);
-MapDataElement NodeGetData(Node node);
-NodeResult NodeSetKey(Node node, MapKeyElement key);
-NodeResult NodeSetData(Node node, MapDataElement data);
-NodeResult NodeAdd(Node node, MapKeyElement key,
+Node nodeGetNext(Node node);
+MapKeyElement nodeGetKey(Node node);
+MapDataElement nodeGetData(Node node);
+NodeResult nodeSetKey(Node node, MapKeyElement key);
+NodeResult nodeSetData(Node node, MapDataElement data);
+NodeResult nodeAdd(Node node, MapKeyElement key,
                    MapDataElement data,
                    copyMapDataElements copyDataElement,
                    copyMapKeyElements copyKeyElement,
                    freeMapDataElements freeDataElement,
                    freeMapKeyElements freeKeyElement,
                    compareMapKeyElements compareKeyElements);
-NodeResult NodeRemove(Node node ,MapKeyElement key);
-Node NodeCreate(MapKeyElement key,
+NodeResult nodeRemove(Node node ,MapKeyElement key);
+Node nodeCreate(MapKeyElement key,
                 MapDataElement data,
                 copyMapDataElements copyDataElement,
                 copyMapKeyElements copyKeyElement,
                 freeMapDataElements freeDataElement,
                 freeMapKeyElements freeKeyElement,
                 compareMapKeyElements compareKeyElements);
-NodeResult NodeDestroy(Node head);
-Node NodeCopy(Node node);
-Node NodeGetNode(Node node, MapKeyElement);
+NodeResult nodeDestroy(Node head);
+Node nodeCopy(Node node);
+Node nodeGetNode(Node node, MapKeyElement);
 typedef MapDataElement(*copyNodeDataElements)(MapDataElement);
 typedef MapKeyElement(*copyNodeKeyElements)(MapKeyElement);
 typedef void(*freeNodeDataElements)(MapDataElement);
