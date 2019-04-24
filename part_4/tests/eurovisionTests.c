@@ -24,6 +24,15 @@
       return false;                             \
     } while(0)
 
+#define CHECK_WITH_FREE_2(b,res,f,g)                \
+  if((b) != (res)) do{                          \
+      printf("fail: %s != %s\n", #b, #res);     \
+      eurovisionDestroy(eurovision);            \
+      f;\
+      g;\
+      return false;                             \
+    } while(0)
+
 static Eurovision setupEurovision() {
   Eurovision eurovision = eurovisionCreate();
   assert(eurovision);
@@ -281,7 +290,7 @@ bool testRunContest() {
   CHECK(eurovisionRemoveState(eurovision, 16), EUROVISION_SUCCESS);
 
   List ranking = eurovisionRunContest(eurovision, 40);
-  CHECK(listGetSize(ranking), 16);
+  CHECK_WITH_FREE_2(listGetSize(ranking), 16,listDestroy(ranking),eurovisionDestroy(eurovision));
   char *current = (char*)listGetFirst(ranking);
   CHECK(strcmp(current, "moldova"), 0);
   current = (char*)listGetNext(ranking);
@@ -292,7 +301,6 @@ bool testRunContest() {
   CHECK(strcmp(current, "united kingdom"), 0);
   current = (char*)listGetNext(ranking);
   CHECK(strcmp(current, "spain"), 0);
-
   listDestroy(ranking);
   eurovisionDestroy(eurovision);
   return true;

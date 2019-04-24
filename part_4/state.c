@@ -113,7 +113,7 @@ int* stateGetVotes(State state){
         }
     }
     setDestroy(tmp);
-    stateVoteDestroy(maxStateVote);
+
     return votes;
 }
 

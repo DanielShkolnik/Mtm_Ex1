@@ -14,12 +14,12 @@
 int main(int argc, char *argv[]) {
     TEST(testAddState)
     TEST(testRemoveState)
-    //TEST(testAddJudge)
-    //TEST(testRemoveJudge)
-    //TEST(testAddVote)
-    //TEST(testRemoveVote)
-    //TEST(testRunContest)
-    //TEST(testRunAudienceFavorite)
-    //TEST(testRunGetFriendlyStates)
+    TEST(testAddJudge)
+    TEST(testRemoveJudge)
+    TEST(testAddVote)
+    TEST(testRemoveVote)
+    TEST(testRunContest)
+    TEST(testRunAudienceFavorite)
+    TEST(testRunGetFriendlyStates)
     return 0;
 }

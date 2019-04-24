@@ -142,6 +142,7 @@ EurovisionResult eurovisionAddJudge(Eurovision eurovision, int judgeId,
     Judge newJudge = judgeCreate(judgeId,judgeName,judgeResults);
     if (newJudge==NULL) return EUROVISION_OUT_OF_MEMORY;
     SetResult setAddResult=setAdd(eurovision->judges,newJudge);
+    judgeDestroy(newJudge);
     if (setAddResult==SET_OUT_OF_MEMORY) return EUROVISION_OUT_OF_MEMORY;
     if (setAddResult==SET_ITEM_ALREADY_EXISTS) return EUROVISION_JUDGE_ALREADY_EXIST;
     return EUROVISION_SUCCESS;
@@ -239,7 +240,11 @@ static EurovisionResult AddOrRemoveVote(Eurovision eurovision, int stateGiver,
     if(stateGiver==stateTaker) return EUROVISION_SAME_STATE;
     State tmp1 = stateCreate(stateGiver,REMOVE_STATE,REMOVE_STATE);
     State tmp2 = stateCreate(stateTaker,REMOVE_STATE,REMOVE_STATE);
-    if(!setIsIn(eurovision->states,tmp1) || !setIsIn(eurovision->states,tmp2)) return EUROVISION_STATE_NOT_EXIST;
+    if(!setIsIn(eurovision->states,tmp1) || !setIsIn(eurovision->states,tmp2)){
+        stateDestroy(tmp1);
+        stateDestroy(tmp2);
+        return EUROVISION_STATE_NOT_EXIST;
+    }
     SET_FOREACH(State,state,eurovision->states){
         if(stateGetId(state)==stateGiver){
             stateAddOrRemoveVote(state,stateTaker,choice);
@@ -262,6 +267,7 @@ static double getAverageOfStateScores(Set states,int stateId){
                 sum += getScoreByPlace(i);
             }
         }
+        free(votes);
     }
     return (double)sum;//If average NEED EDIT
 }
@@ -303,12 +309,13 @@ static int compareStateScores(SetElement stateScore1, SetElement stateScore2) {
 static ListElement copyFinalistNames(ListElement name) {
     assert(name!=NULL);
     char* newName= malloc(sizeof(char)*strlen((char*)name)+1);
+    if(!newName) return  NULL;
     strcpy(newName,(char*)name);
     return newName;
 }
 
 static void freeFinalistNames(ListElement stateScore) {
-    free((StateScore)stateScore);
+    free((char*)stateScore);
 }
 
 
@@ -338,6 +345,7 @@ List eurovisionRunContest(Eurovision eurovision, int audiencePercent) {
         stateScoreDestroy(tmp);
     }
     List finalistNames=listCreate(copyFinalistNames,freeFinalistNames);
+
     if (finalistNames==NULL) return NULL;
     SET_FOREACH(StateScore ,stateScoreIterator,finalScores) {
         listInsertLast(finalistNames,stateScoreGetName(stateScoreIterator));
@@ -389,10 +397,12 @@ static char* generateFriendlyStatesString(FriendlyStates friendlyStates) {
     assert(friendlyStates!=NULL);
     char* newName1= malloc(sizeof(char)*strlen(friendlyStatesGetName1(friendlyStates))+1);
     char* newName2= malloc(sizeof(char)*strlen(friendlyStatesGetName2(friendlyStates))+1);
+    if(!newName1 || !newName2) return NULL;
     strcpy(newName1,friendlyStatesGetName1(friendlyStates));
     strcpy(newName2,friendlyStatesGetName2(friendlyStates));
     char* newStr=" - ";
     char* finalName=malloc(sizeof(char)*(strlen(newName1)+strlen(newName2)+strlen(newStr))+1);
+    if(!finalName) return NULL;
     strcpy(finalName,newName1);
     strncat(finalName,newStr,strlen(newStr));
     strncat(finalName,newName2,strlen(newName2));
@@ -431,7 +441,6 @@ List eurovisionRunGetFriendlyStates(Eurovision eurovision){
                 setAdd(friendlyStatesSet,friendlyStatesTmp);
                 friendlyStatesDestroy(friendlyStatesTmp);
             }
-            //stateDestroy(stateTmp);
             free(topVoteId2Array);
         }
         free(topVoteId1Array);
@@ -441,6 +450,7 @@ List eurovisionRunGetFriendlyStates(Eurovision eurovision){
     SET_FOREACH(FriendlyStates ,friendlyStatesIterator,friendlyStatesSet) {
         char* finalFriendlyStatesString=generateFriendlyStatesString(friendlyStatesIterator);
         listInsertLast(friendlyStatesList,finalFriendlyStatesString);
+        free(finalFriendlyStatesString);
     }
     setDestroy(tmp);
     setDestroy(friendlyStatesSet);
