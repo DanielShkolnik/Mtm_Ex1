@@ -54,7 +54,7 @@ NodeResult NodeSetKey(Node node, MapKeyElement key) {
 NodeResult NodeSetData(Node node, MapDataElement data) {
     if (node==NULL || data==NULL) return NODE_NULL_ARGUMENT;
     node->freeData(node->data);
-    node->data=data;
+    node->data = node->copyData(data);
     return NODE_SUCCESS;
 }
 
