@@ -38,7 +38,6 @@ Map mapCreate(copyMapDataElements copyDataElement,
     ptr->freeData = freeDataElement;
     ptr->freeKey = freeKeyElement;
     ptr->compareKeys = compareKeyElements;
-
     return ptr;
 }
 
@@ -55,6 +54,8 @@ static Node creatHead(copyMapDataElements copyDataElement,
     *headKey = -1;
     Node node = NodeCreate(headKey,headData,copyDataElement,copyKeyElement,
                             freeDataElement,freeKeyElement,compareKeyElements);
+    free(headKey);
+    free(headData);
     if(node == NULL){
         return NULL;
     }
@@ -62,8 +63,9 @@ static Node creatHead(copyMapDataElements copyDataElement,
 }
 
 void mapDestroy(Map map){
+    if (map==NULL) return;
     NodeDestroy(map->listHead);
-    map->freeKey(map->iterator);
+    free(map);
 }
 
 int mapGetSize(Map map) {

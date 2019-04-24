@@ -105,6 +105,13 @@ NodeResult NodeRemove(Node node ,MapKeyElement key) {
     return NODE_SUCCESS;
 }
 
+static NodeResult freeNodeHead (Node node) {
+    free(node->key);
+    free(node->data);
+    free(node);
+    return NODE_SUCCESS;
+}
+
 static NodeResult freeNode (Node node){
     node->freeData(node->data);
     node->freeKey(node->key);
@@ -114,9 +121,11 @@ static NodeResult freeNode (Node node){
 
 NodeResult NodeDestroy(Node head){
     if(head==NULL) return NODE_NULL_ARGUMENT;
-    while (head!=NULL){
-        Node tmp = head;
-        head = head->next;
+    Node nodeCurrent=head->next;
+    freeNodeHead(head);
+    while (nodeCurrent!=NULL){
+        Node tmp = nodeCurrent;
+        nodeCurrent = nodeCurrent->next;
         freeNode(tmp);
     }
     return NODE_SUCCESS;
