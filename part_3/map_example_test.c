@@ -154,10 +154,10 @@ bool improveTestMapAddAndSize() {
 
     ASSERT_TEST(*(int*)mapGetFirst(map) == 1);
     ASSERT_TEST(*(int*)mapGetNext(map) == 2);
+    /*
     int k=1;
     char j = (char) k;
-    ASSERT_TEST(mapPut(map, &k, &j) == MAP_SUCCESS);
-    /*
+    //ASSERT_TEST(mapPut(map, &j, &k) == MAP_SUCCESS);
      k=-1;
      j = (char) k;
    ASSERT_TEST(mapPut(map, &k, &j) == MAP_SUCCESS);
@@ -167,7 +167,7 @@ bool improveTestMapAddAndSize() {
     ASSERT_TEST(mapPut(map, &k, &j) == MAP_SUCCESS);
     ASSERT_TEST(*(int*)mapGetFirst(map) == -1);
     ASSERT_TEST(*(int*)mapGetNext(map) == 0);
-     */
+    */
     mapDestroy(map);
     return true;
 }
@@ -344,17 +344,17 @@ bool improveTestIterator() {
 
 
 int main() {
-    //RUN_TEST(testMapCreateDestroy);
-    //RUN_TEST(testMapAddAndSize);
-    //RUN_TEST(testMapGet);
-    //RUN_TEST(testIterator);
-    //RUN_TEST(improveTestMapCreateDestroy);
+    RUN_TEST(testMapCreateDestroy);
+    RUN_TEST(testMapAddAndSize);
+    RUN_TEST(testMapGet);
+    RUN_TEST(testIterator);
+    RUN_TEST(improveTestMapCreateDestroy);
     RUN_TEST(improveTestMapAddAndSize);
-    //RUN_TEST(improveTestMapGet);
-    //RUN_TEST(improveTestIterator);
-    //RUN_TEST(testMapCopy);
-    //RUN_TEST(testMapContains);
-    //RUN_TEST(testMapRemove);
+    RUN_TEST(improveTestMapGet);
+    RUN_TEST(improveTestIterator);
+    RUN_TEST(testMapCopy);
+    RUN_TEST(testMapContains);
+    RUN_TEST(testMapRemove);
 
     return 0;
 }
