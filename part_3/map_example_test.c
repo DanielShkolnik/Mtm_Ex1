@@ -156,7 +156,7 @@ bool improveTestMapAddAndSize() {
     ASSERT_TEST(*(int*)mapGetNext(map) == 2);
     int k=1;
     char j = (char) k;
-    ASSERT_TEST(mapPut(map, &k, &j) == MAP_SUCCESS);
+    //ASSERT_TEST(mapPut(map, &k, &j) == MAP_SUCCESS);
     /*
      k=-1;
      j = (char) k;
