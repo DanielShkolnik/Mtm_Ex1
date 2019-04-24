@@ -165,6 +165,7 @@ MapResult mapRemove(Map map, MapKeyElement keyElement) {
 MapResult mapClear(Map map) {
     if (map==NULL) return MAP_NULL_ARGUMENT;
     NodeDestroy(map->listHead);
+    map->listHead = NULL;
     return MAP_SUCCESS;
 }
 

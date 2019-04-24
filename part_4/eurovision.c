@@ -269,7 +269,7 @@ static double getAverageOfStateScores(Set states,int stateId){
         }
         free(votes);
     }
-    return (double)sum;//If average NEED EDIT
+    return (double)sum;//numberOfStates;//If average NEED EDIT
 }
 
 
@@ -284,7 +284,7 @@ static double getAverageOfJudgeScore(Set judges, int stateId){
             }
         }
     }
-    return (double)sum;//If average NEED EDIT
+    return (double)sum;//numberOfJudges;//If average NEED EDIT
 }
 
 static int getScoreByPlace(int place){
