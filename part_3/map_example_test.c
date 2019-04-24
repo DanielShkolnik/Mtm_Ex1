@@ -344,17 +344,17 @@ bool improveTestIterator() {
 
 
 int main() {
-    //RUN_TEST(testMapCreateDestroy);
-    //RUN_TEST(testMapAddAndSize);
-    //RUN_TEST(testMapGet);
-    //RUN_TEST(testIterator);
-    //RUN_TEST(improveTestMapCreateDestroy);
+    RUN_TEST(testMapCreateDestroy);
+    RUN_TEST(testMapAddAndSize);
+    RUN_TEST(testMapGet);
+    RUN_TEST(testIterator);
+    RUN_TEST(improveTestMapCreateDestroy);
     RUN_TEST(improveTestMapAddAndSize);
-    //RUN_TEST(improveTestMapGet);
-    //RUN_TEST(improveTestIterator);
-    //RUN_TEST(testMapCopy);
-    //RUN_TEST(testMapContains);
-    //RUN_TEST(testMapRemove);
+    RUN_TEST(improveTestMapGet);
+    RUN_TEST(improveTestIterator);
+    RUN_TEST(testMapCopy);
+    RUN_TEST(testMapContains);
+    RUN_TEST(testMapRemove);
 
     return 0;
 }

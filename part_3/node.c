@@ -99,6 +99,7 @@ NodeResult NodeRemove(Node node ,MapKeyElement key) {
         if(currentNode->compareKeys(currentNode->key,key)==0){
             prevNode->next = currentNode->next;
             freeNode(currentNode);
+            return NODE_SUCCESS;
         }
         prevNode = currentNode;
         currentNode = currentNode->next;
