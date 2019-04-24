@@ -26,10 +26,14 @@ Map mapCreate(copyMapDataElements copyDataElement,
               freeMapDataElements freeDataElement,
               freeMapKeyElements freeKeyElement,
               compareMapKeyElements compareKeyElements){
+    if(!copyDataElement || !copyKeyElement || !freeDataElement || !freeKeyElement || !compareKeyElements){
+        return NULL;
+    }
     Map ptr = malloc(sizeof(*ptr));
     if(!ptr){
         return NULL;
     }
+
 
     ptr->listHead = creatHead(copyDataElement,copyKeyElement,freeDataElement,freeKeyElement,compareKeyElements);
     ptr->iterator = NULL;
@@ -46,6 +50,9 @@ static Node creatHead(copyMapDataElements copyDataElement,
                       freeMapDataElements freeDataElement,
                       freeMapKeyElements freeKeyElement,
                       compareMapKeyElements compareKeyElements){
+    if(!copyDataElement || !copyKeyElement || !freeDataElement || !freeKeyElement || !compareKeyElements){
+        return NULL;
+    }
     int* headKey = malloc(sizeof(int));
     if(headKey==NULL) return NULL;
     int* headData = malloc(sizeof(int));
@@ -69,7 +76,7 @@ void mapDestroy(Map map){
 }
 
 int mapGetSize(Map map) {
-    if (map==NULL) return 0;
+    if (map==NULL) return -1;
     Node currentNode=NodeGetNext(map->listHead);
     int counter=0;
     while (currentNode!=NULL) {
@@ -83,13 +90,14 @@ Map mapCopy(Map map){
     if (map==NULL) return  NULL;
     Map newMap;
     newMap=mapCreate(map->copyData,map->copyKey,map->freeData,map->freeKey,map->compareKeys);
-    newMap->iterator=NULL;
+    NodeDestroy(newMap->listHead);
     newMap->listHead=NodeCopy(map->listHead);
     return newMap;
 }
 
 MapResult mapPut(Map map, MapKeyElement keyElement, MapDataElement dataElement){
     if (map==NULL || keyElement==NULL || dataElement==NULL) return MAP_NULL_ARGUMENT;
+    map->iterator = NULL;
     Node current = NodeGetNext(map->listHead);
     while(NodeGetNext(current) !=NULL){
         if(map->compareKeys(NodeGetKey(current),keyElement)== 0){
@@ -110,6 +118,7 @@ MapResult mapPut(Map map, MapKeyElement keyElement, MapDataElement dataElement){
 }
 
 MapKeyElement mapGetFirst(Map map){
+    if(!map) return NULL;
     Node first = NodeGetNext(map->listHead);
     if(first==NULL){
         return NULL;
@@ -119,6 +128,7 @@ MapKeyElement mapGetFirst(Map map){
 }
 
 MapKeyElement mapGetNext(Map map){
+    if(!map) return NULL;
     if(map->iterator==NULL){
         return NULL;
     }
@@ -155,7 +165,7 @@ MapResult mapRemove(Map map, MapKeyElement keyElement) {
 MapResult mapClear(Map map) {
     if (map==NULL) return MAP_NULL_ARGUMENT;
     NodeDestroy(map->listHead);
-    map->freeKey(map->iterator);
+    map->listHead = NULL;
     return MAP_SUCCESS;
 }
 

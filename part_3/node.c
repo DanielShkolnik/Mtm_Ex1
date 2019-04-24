@@ -53,7 +53,8 @@ NodeResult NodeSetKey(Node node, MapKeyElement key) {
 
 NodeResult NodeSetData(Node node, MapDataElement data) {
     if (node==NULL || data==NULL) return NODE_NULL_ARGUMENT;
-    node->data=data;
+    node->freeData(node->data);
+    node->data = node->copyData(data);
     return NODE_SUCCESS;
 }
 
@@ -98,6 +99,7 @@ NodeResult NodeRemove(Node node ,MapKeyElement key) {
         if(currentNode->compareKeys(currentNode->key,key)==0){
             prevNode->next = currentNode->next;
             freeNode(currentNode);
+            return NODE_SUCCESS;
         }
         prevNode = currentNode;
         currentNode = currentNode->next;
