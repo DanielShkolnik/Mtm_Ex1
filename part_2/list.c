@@ -18,7 +18,7 @@ ErrorCode mergeSortedLists(Node list1, Node list2, Node *mergedOut);
 Node createNode(int num);
 ErrorCode merge(Node *list1, Node *list2, Node *mergedCurrent);
 ErrorCode appendList(Node *mergedCurrent,Node *list);
-int main() {
+/*int main() {
     Node list1 = createNode(3);
     Node list1Head = list1;
     list1->next = createNode(7);
@@ -45,7 +45,7 @@ int main() {
     }
     return 0;
 }
-
+*/
 Node createNode(int num){
     Node ptr = malloc(sizeof(*ptr));
     if(!ptr){
@@ -143,24 +143,22 @@ ErrorCode appendList(Node *mergedCurrent,Node *list){
     }
     return SUCCESS;
 }
-
 int getListLength(Node list){
-    int counter = 0;
-    while (list != NULL){
-        list = list->next;
+    Node temp=list;
+    int counter=0;
+    while(temp){
         counter++;
+        temp=temp->next;
     }
     return counter;
 }
+
 bool isListSorted(Node list){
-    int mergedCurrent = list->x;
-    while (list->next != NULL){
-        list = list->next;
-        if (mergedCurrent > list->x){
+    Node temp=list;
+    while(temp){
+        if(temp->next&&temp->next->x < temp->x)
             return false;
-        }
-        mergedCurrent = list->x;
+        temp=temp->next;
     }
     return true;
 }
-

@@ -15,10 +15,6 @@ void TEST4(Node node1,Node node2);
 void TEST3(Node node1,Node node2);
 void TEST2(Node node1,Node node2);
 void TEST1(Node node1,Node node2);
-int getListLength(Node list);
-bool isListSorted(Node list);
-ErrorCode mergeSortedLists(Node list1, Node list2, Node *mergedOut);
-
 
 int main() {
     Node node1=createNode1(); //empty list
@@ -36,25 +32,7 @@ int main() {
     return 0;
 }
 
-int getListLength(Node list){
-    Node temp=list;
-    int counter=0;
-    while(temp){
-        counter++;
-        temp=temp->next;
-    }
-    return counter;
-}
 
-bool isListSorted(Node list){
-    Node temp=list;
-    while(temp){
-        if(temp->next&&temp->next->x < temp->x)
-            return false;
-        temp=temp->next;
-    }
-    return true;
-}
 
 void destroyList(Node list){
     if(list==NULL){
@@ -167,7 +145,7 @@ void TEST1(Node node1,Node node2){
     Node merge=NULL;
     ErrorCode error=mergeSortedLists(node1,node2,&merge);
     destroyList(merge);
-    if(error==EMPTY_LIST)
+    if(error==NULL_ARGUMENT)
     {
         printf("TEST1:OK\n");
         return;
