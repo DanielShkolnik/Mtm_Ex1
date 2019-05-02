@@ -3,4 +3,4 @@ project(part_2 C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(part_2 list.c)
+add_executable(part_2 list.c Node.c)
