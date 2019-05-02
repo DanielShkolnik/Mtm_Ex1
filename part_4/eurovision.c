@@ -330,6 +330,7 @@ List eurovisionRunContest(Eurovision eurovision, int audiencePercent) {
     char** stateNames=malloc(sizeof(char*)*numOfStates);
     if (stateIds==NULL || stateNames==NULL) return NULL;
     int i=0;
+    // Gets an array of state ids and state names (all states in eurovision)
     SET_FOREACH(State ,stateIterator,eurovision->states) {
         stateIds[i]=stateGetId(stateIterator);
         stateNames[i]=malloc(sizeof(char)*strlen(stateGetName(stateIterator))+1);
@@ -337,6 +338,7 @@ List eurovisionRunContest(Eurovision eurovision, int audiencePercent) {
         strcpy(stateNames[i],stateGetName(stateIterator));
         i++;
     }
+    // Create a sorted set of all the states. The set is sorted by the final score
     Set finalScores=setCreate(copyStateScore,freeStateScore,compareStateScores);
     if (finalScores==NULL) return NULL;
     double averageOfStateScores=0,averageOfJudgeScores=0;
@@ -348,6 +350,8 @@ List eurovisionRunContest(Eurovision eurovision, int audiencePercent) {
         setAdd(finalScores,tmp);
         stateScoreDestroy(tmp);
     }
+
+    // This is a list of the states ordered by their score
     List finalistNames=listCreate(copyFinalistNames,freeFinalistNames);
 
     if (finalistNames==NULL) return NULL;
@@ -431,7 +435,9 @@ List eurovisionRunGetFriendlyStates(Eurovision eurovision){
     Set tmp=setCopy(eurovision->states);
     if (tmp==NULL) return NULL;
     int topVoteId1=0, topVoteId2=0;
+    // Creating a set to store the frendly states and sort them by state1 name (alphabetical order)
     Set friendlyStatesSet=setCreate(copyFriendlyStates,freeFriendlyStates,compareFriendlyStates);
+    // Gets the top voted state (stateIterator) for each state and sees if the top voted state voted (at first place) for stateIterator.
     SET_FOREACH(State ,stateIterator,tmp){
         int *topVoteId1Array,*topVoteId2Array;
         topVoteId1Array=stateGetVotes(stateIterator);
@@ -449,6 +455,7 @@ List eurovisionRunGetFriendlyStates(Eurovision eurovision){
         }
         free(topVoteId1Array);
     }
+    // Creates a list ordered alphabeticaly for frendly states.
     List friendlyStatesList=listCreate(copyFriendlyStatesList,freeFriendlyStatesList);
     if (friendlyStatesList==NULL) return NULL;
     SET_FOREACH(FriendlyStates ,friendlyStatesIterator,friendlyStatesSet) {
