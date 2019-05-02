@@ -70,8 +70,8 @@ ErrorCode mergeSortedLists(Node list1, Node list2, Node *mergedOut){
     if(!isListSorted(list1) || !isListSorted(list2)){
         return UNSORTED_LIST;
     }
+    //Initialize list head
     Node mergedCurrent = NULL;
-
     if(list1->x < list2->x){
         mergedCurrent = createNode(list1->x);
         list1 = list1->next;
@@ -80,16 +80,16 @@ ErrorCode mergeSortedLists(Node list1, Node list2, Node *mergedOut){
         mergedCurrent = createNode(list2->x);
         list2 = list2->next;
     }
-    *mergedOut = mergedCurrent;
     if(mergedCurrent == NULL){
         return MEMORY_ERROR;
     }
+    //mergedOut points to the list head
+    *mergedOut = mergedCurrent;
     ErrorCode mergeResult = merge(&list1,&list2,&mergedCurrent);
     if(mergeResult == MEMORY_ERROR){
         return MEMORY_ERROR;
     }
-
-    ErrorCode resultAppend = SUCCESS;
+    ErrorCode resultAppend=SUCCESS;
     if(list1!=NULL && list2==NULL){
         resultAppend = appendList(&mergedCurrent,&list1);
     }
@@ -99,7 +99,6 @@ ErrorCode mergeSortedLists(Node list1, Node list2, Node *mergedOut){
     if(resultAppend==MEMORY_ERROR){
         return MEMORY_ERROR;
     }
-
     return SUCCESS;
 }
 /**
@@ -119,10 +118,10 @@ ErrorCode merge(Node *list1, Node *list2, Node *mergedCurrent){
             NodeAppend(*mergedCurrent,createNode((*list2)->x));
             *list2 = (*list2)->next;
         }
-        *mergedCurrent = (*mergedCurrent)->next;
-        if(*mergedCurrent == NULL){
+        if((*mergedCurrent)->next == NULL){
             return MEMORY_ERROR;
         }
+        *mergedCurrent = (*mergedCurrent)->next;
     }
     return SUCCESS;
 }
@@ -133,7 +132,7 @@ ErrorCode merge(Node *list1, Node *list2, Node *mergedCurrent){
  * @return MEMORY_ERROR if a memory error occurred else returns SUCCESS
  */
 ErrorCode appendList(Node *mergedCurrent,Node *list){
-    while(*list != NULL) {
+    while((*list)!=NULL) {
         NodeAppend(*mergedCurrent, createNode((*list)->x));
         if((*mergedCurrent)->next == NULL){
             return MEMORY_ERROR;
