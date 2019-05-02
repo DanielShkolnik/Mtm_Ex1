@@ -123,6 +123,10 @@ Eurovision eurovisionCreate(){
     if(!ptr) return NULL;
     ptr->states = setCreate(copyState,freeState,compareState);
     ptr->judges = setCreate(copyJudge,freeJudge,compareJudge);
+    if (ptr->states==NULL || ptr->judges==NULL) {
+        eurovisionDestroy(ptr);
+        return NULL;
+    }
     return ptr;
 }
 
@@ -137,8 +141,8 @@ EurovisionResult eurovisionAddJudge(Eurovision eurovision, int judgeId,
                                     int *judgeResults) {
     if (eurovision==NULL || judgeName==NULL || judgeResults==NULL) return EUROVISION_NULL_ARGUMENT;
     if (judgeId<0 || !checkJudgeArray(judgeResults)) return EUROVISION_INVALID_ID;
-    if (!checkValidStateId(eurovision->states,judgeResults)) return EUROVISION_STATE_NOT_EXIST;
     if (!checkString(judgeName)) return EUROVISION_INVALID_NAME;
+    if (!checkValidStateId(eurovision->states,judgeResults)) return EUROVISION_STATE_NOT_EXIST;
     Judge newJudge = judgeCreate(judgeId,judgeName,judgeResults);
     if (newJudge==NULL) return EUROVISION_OUT_OF_MEMORY;
     SetResult setAddResult=setAdd(eurovision->judges,newJudge);
@@ -237,7 +241,6 @@ static EurovisionResult AddOrRemoveVote(Eurovision eurovision, int stateGiver,
                                         int stateTaker,VoteAddOrRemove choice){
     if(!eurovision) return EUROVISION_NULL_ARGUMENT;
     if(stateGiver < 0 || stateTaker < 0) return EUROVISION_INVALID_ID;
-    if(stateGiver==stateTaker) return EUROVISION_SAME_STATE;
     State tmp1 = stateCreate(stateGiver,REMOVE_STATE,REMOVE_STATE);
     State tmp2 = stateCreate(stateTaker,REMOVE_STATE,REMOVE_STATE);
     if(!setIsIn(eurovision->states,tmp1) || !setIsIn(eurovision->states,tmp2)){
@@ -245,6 +248,7 @@ static EurovisionResult AddOrRemoveVote(Eurovision eurovision, int stateGiver,
         stateDestroy(tmp2);
         return EUROVISION_STATE_NOT_EXIST;
     }
+    if(stateGiver==stateTaker) return EUROVISION_SAME_STATE;
     SET_FOREACH(State,state,eurovision->states){
         if(stateGetId(state)==stateGiver){
             stateAddOrRemoveVote(state,stateTaker,choice);
@@ -259,7 +263,7 @@ static EurovisionResult AddOrRemoveVote(Eurovision eurovision, int stateGiver,
 // we didnt want to put this whole function in macro and we cant change SET_FOREACH.
 static double getAverageOfStateScores(Set states,int stateId){
     int sum = 0;
-    //int numberOfStates = setGetSize(states);
+    int numberOfStates = setGetSize(states);
     SET_FOREACH(State,stateIterator,states){
         int* votes = stateGetVotes(stateIterator);
         for(int i=0;i<STATE_NUMBER_OF_VOTES;i++){
@@ -269,13 +273,13 @@ static double getAverageOfStateScores(Set states,int stateId){
         }
         free(votes);
     }
-    return (double)sum;//numberOfStates;//If average NEED EDIT
+    return (double)sum/(numberOfStates-1);//If average NEED EDIT
 }
 
 
 static double getAverageOfJudgeScore(Set judges, int stateId){
     int sum = 0;
-    //int numberOfJudges = setGetSize(judges);
+    int numberOfJudges = setGetSize(judges);
     SET_FOREACH(Judge,judgeIterator,judges){
         int* votes = judgeGetVotes(judgeIterator);
         for(int i=0;i<JUDGE_NUMBER_OF_VOTES;i++){
@@ -284,7 +288,7 @@ static double getAverageOfJudgeScore(Set judges, int stateId){
             }
         }
     }
-    return (double)sum;//numberOfJudges;//If average NEED EDIT
+    return (double)sum/numberOfJudges;//If average NEED EDIT
 }
 
 static int getScoreByPlace(int place){

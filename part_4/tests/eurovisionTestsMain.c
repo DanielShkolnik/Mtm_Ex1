@@ -16,7 +16,6 @@ int main(int argc, char *argv[]) {
     TEST(testRemoveState)
     TEST(testAddJudge)
     TEST(testRemoveJudge)
-
     TEST(testAddVote)
     TEST(testRemoveVote)
     TEST(testRunContest)
