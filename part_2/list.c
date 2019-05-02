@@ -59,6 +59,9 @@ void NodeAppend(Node node1, Node node2){
 }
 
 ErrorCode mergeSortedLists(Node list1, Node list2, Node *mergedOut){
+    if (list1==NULL || list2 ==NULL || mergedOut ==NULL) {
+        return NULL_ARGUMENT;
+    }
     if(getListLength(list1) == 0 && getListLength(list2) == 0){
         return EMPTY_LIST;
     }
