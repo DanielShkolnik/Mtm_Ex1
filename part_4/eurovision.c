@@ -13,7 +13,7 @@
 #define SECOND_PLACE 10
 #define PERCENTAGE 100
 
-static EurovisionResult AddOrRemoveVote(Eurovision eurovision, int stateGiver,
+static EurovisionResult addOrRemoveVote(Eurovision eurovision, int stateGiver,
                                         int stateTaker,VoteAddOrRemove choice);
 static int getScoreByPlace(int place);
 static Judge getJudge(Set judges ,int judgeId);
@@ -229,15 +229,15 @@ EurovisionResult eurovisionRemoveState(Eurovision eurovision, int stateId){
 
 EurovisionResult eurovisionAddVote(Eurovision eurovision, int stateGiver,
                                    int stateTaker){
-    return AddOrRemoveVote(eurovision,stateGiver,stateTaker,VOTE_ADD);
+    return addOrRemoveVote(eurovision,stateGiver,stateTaker,VOTE_ADD);
 }
 
 EurovisionResult eurovisionRemoveVote(Eurovision eurovision, int stateGiver,
                                       int stateTaker){
-    return AddOrRemoveVote(eurovision,stateGiver,stateTaker,VOTE_REMOVE);
+    return addOrRemoveVote(eurovision,stateGiver,stateTaker,VOTE_REMOVE);
 }
 
-static EurovisionResult AddOrRemoveVote(Eurovision eurovision, int stateGiver,
+static EurovisionResult addOrRemoveVote(Eurovision eurovision, int stateGiver,
                                         int stateTaker,VoteAddOrRemove choice){
     if(!eurovision) return EUROVISION_NULL_ARGUMENT;
     if(stateGiver < 0 || stateTaker < 0) return EUROVISION_INVALID_ID;
