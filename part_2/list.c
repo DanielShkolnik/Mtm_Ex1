@@ -16,6 +16,8 @@ int getListLength(Node list);
 bool isListSorted(Node list);
 ErrorCode mergeSortedLists(Node list1, Node list2, Node *mergedOut);
 Node createNode(int num);
+ErrorCode merge(Node *list1, Node *list2, Node *mergedCurrent);
+ErrorCode appendList(Node *mergedCurrent,Node *list);
 int main() {
     Node list1 = createNode(3);
     Node list1Head = list1;
@@ -35,7 +37,7 @@ int main() {
     list2->next = createNode(6);
     list2 = list2->next;
     list2->next = NULL;
-    Node merged = NULL;
+    Node merged = createNode(0);
     ErrorCode result = mergeSortedLists(list1Head, list2Head, &merged);
     while (merged != NULL){
         printf("%d\n",merged->x);
@@ -82,35 +84,62 @@ ErrorCode mergeSortedLists(Node list1, Node list2, Node *mergedOut){
     if(mergedCurrent == NULL){
         return MEMORY_ERROR;
     }
-    while (list1 != NULL && list2 != NULL){
-        if(list1->x < list2->x){
-            NodeAppend(mergedCurrent,createNode(list1->x));
-            list1 = list1->next;
+    ErrorCode mergeResult = merge(&list1,&list2,&mergedCurrent);
+    if(mergeResult == MEMORY_ERROR){
+        return MEMORY_ERROR;
+    }
+
+    ErrorCode resultAppend = SUCCESS;
+    if(list1!=NULL && list2==NULL){
+        resultAppend = appendList(&mergedCurrent,&list1);
+    }
+    if(list2!=NULL &&list1==NULL){
+        resultAppend = appendList(&mergedCurrent,&list2);
+    }
+    if(resultAppend==MEMORY_ERROR){
+        return MEMORY_ERROR;
+    }
+
+    return SUCCESS;
+}
+/**
+ * Merging the two lists into mergedCurrent until the end of one of the lists.
+ * @param list1 sorted list
+ * @param list2 sorted list
+ * @param mergedCurrent the pointer to the current node in the mergedOut list
+ * @return MEMORY_ERROR if a memory error occurred else returns SUCCESS
+ */
+ErrorCode merge(Node *list1, Node *list2, Node *mergedCurrent){
+    while (*list1 != NULL && *list2 != NULL){
+        if((*list1)->x < (*list2)->x){
+            NodeAppend(*mergedCurrent,createNode((*list1)->x));
+            *list1 = (*list1)->next;
         }
         else{
-            NodeAppend(mergedCurrent,createNode(list2->x));
-            list2 = list2->next;
+            NodeAppend(*mergedCurrent,createNode((*list2)->x));
+            *list2 = (*list2)->next;
         }
-        mergedCurrent = mergedCurrent->next;
-        if(mergedCurrent == NULL){
+        *mergedCurrent = (*mergedCurrent)->next;
+        if(*mergedCurrent == NULL){
             return MEMORY_ERROR;
         }
     }
-    while(list2 != NULL) {
-        NodeAppend(mergedCurrent, createNode(list2->x));
-        if(mergedCurrent->next == NULL){
+    return SUCCESS;
+}
+/**
+ * appends the remaining list to the merged list.
+ * @param mergedCurrent the pointer to the current node in the mergedOut list
+ * @param list the list to append to the end of the merged list
+ * @return MEMORY_ERROR if a memory error occurred else returns SUCCESS
+ */
+ErrorCode appendList(Node *mergedCurrent,Node *list){
+    while(*list != NULL) {
+        NodeAppend(*mergedCurrent, createNode((*list)->x));
+        if((*mergedCurrent)->next == NULL){
             return MEMORY_ERROR;
         }
-        mergedCurrent = mergedCurrent->next;
-        list2 = list2->next;
-    }
-    while(list1 != NULL) {
-        NodeAppend(mergedCurrent, createNode(list1->x));
-        if(mergedCurrent->next == NULL){
-            return MEMORY_ERROR;
-        }
-        mergedCurrent = mergedCurrent->next;
-        list1 = list1->next;
+        *mergedCurrent = (*mergedCurrent)->next;
+        *list = (*list)->next;
     }
     return SUCCESS;
 }
