@@ -28,7 +28,7 @@ stateVotes.o: stateVotes.c stateVotes.h
 eurovisionTestsMain.o: tests/eurovisionTestsMain.c tests/eurovisionTests.h
 	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) tests/eurovisionTestsMain.c
 	
-test2018.o: tests/test2018.c tests/../list.h tests/../eurovision.h \
+test2018.o: tests/test2018.c tests/../list.h tests/...h \
  tests/../set.h tests/../list.h tests/eurovisionTests.h
 	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) tests/test2018.c
 	
