@@ -145,7 +145,7 @@ void TEST1(Node node1,Node node2){
     Node merge=NULL;
     ErrorCode error=mergeSortedLists(node1,node2,&merge);
     destroyList(merge);
-    if(error==NULL_ARGUMENT)
+    if(error==EMPTY_LIST)
     {
         printf("TEST1:OK\n");
         return;
