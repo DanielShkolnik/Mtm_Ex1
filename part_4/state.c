@@ -8,7 +8,7 @@ struct State_t{
     Set votes;
 };
 
-
+//Shell functions for the set.
 static SetElement copyStateVote (SetElement stateVote){
     if(!stateVote) return NULL;
     return stateVoteCopy((StateVote)stateVote);
@@ -121,9 +121,5 @@ char* stateGetName(State state) {
     assert(state!=NULL);
     return state->name;
 }
-int stateGetVote(State state){
-    StateVote vote = setGetFirst(state->votes);
-    if(!vote) return 0;
-    return stateVoteGetVote(vote);
-}
+
 
