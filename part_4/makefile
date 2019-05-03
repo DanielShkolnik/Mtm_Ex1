@@ -1,5 +1,5 @@
 CC = gcc
-OBJS = eurovision.o friendlyStates.o judge.o state.o stateScore.o stateVotes.o test2018.o eurovisionTestsMain.o
+OBJS = eurovision.o friendlyStates.o judge.o state.o stateScore.o stateVotes.o exampleMain.o
 EXEC = eurovision
 DEBUG_FLAG = -g
 COMP_FLAG = -std=c99 -Wall -Werror
@@ -25,12 +25,8 @@ stateScore.o: stateScore.c stateScore.h
 stateVotes.o: stateVotes.c stateVotes.h
 	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
 	
-eurovisionTestsMain.o: tests/eurovisionTestsMain.c tests/eurovisionTests.h
-	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) tests/eurovisionTestsMain.c
-	
-test2018.o: tests/test2018.c tests/../list.h tests/../eurovision.h \
- tests/../set.h tests/../list.h tests/eurovisionTests.h
-	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) tests/test2018.c
+exampleMain.o: exampleMain.c
+	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
 	
 clean:
 	rm -f $(OBJS) $(EXEC)

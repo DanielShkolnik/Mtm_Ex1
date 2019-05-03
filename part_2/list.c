@@ -61,7 +61,7 @@ void NodeAppend(Node node1, Node node2){
 }
 
 ErrorCode mergeSortedLists(Node list1, Node list2, Node *mergedOut){
-    if (mergedOut==NULL) {
+    if (mergedOut ==NULL) {
         return NULL_ARGUMENT;
     }
     if(list1==NULL || list2 ==NULL){

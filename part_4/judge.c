@@ -27,6 +27,14 @@ Judge judgeCreate(int id, const char *name,int *votes){
     return ptrJudge;
 }
 
+/**
+ *Creates a copy of target array.
+ *
+ * The new copy will contain all the cells from the source array in the same order
+ *
+ * @param array The target array to copy
+ * @return A array pointer that containing the same cells with same order.
+ */
 static void copyArray (int* votesCopy, const int* votes) {
     for (int i=0; i<JUDGE_NUMBER_OF_VOTES; i++) {
         votesCopy[i]=votes[i];
