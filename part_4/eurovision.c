@@ -98,6 +98,10 @@ static bool checkString(const char* str){
 static bool checkJudgeArray(const int* array) {
     for (int i=0; i<JUDGE_NUMBER_OF_VOTES; i++) {
         if (array[i]<0) return false;
+        for (int j=0; j<JUDGE_NUMBER_OF_VOTES; j++) {
+            if (j==i) continue;
+            if (array[j]==array[i]) return false;
+        }
     }
     return true;
 }
