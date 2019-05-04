@@ -228,6 +228,10 @@ EurovisionResult eurovisionRemoveState(Eurovision eurovision, int stateId){
     if(!eurovision) return EUROVISION_NULL_ARGUMENT;
     if(stateId<0) return EUROVISION_INVALID_ID;
     State tmp = stateCreate(stateId,REMOVE_STATE,REMOVE_STATE);
+    if (tmp==NULL) {
+        eurovisionDestroy(eurovision);
+        return EUROVISION_OUT_OF_MEMORY;
+    }
     SetResult result = setRemove(eurovision->states,tmp);
     if(result==SET_ITEM_DOES_NOT_EXIST){
         stateDestroy(tmp);
@@ -235,6 +239,10 @@ EurovisionResult eurovisionRemoveState(Eurovision eurovision, int stateId){
     }
     int size = setGetSize(eurovision->judges);
     Judge* removeJudges = malloc(sizeof(Judge)*size);
+    if (removeJudges==NULL) {
+        eurovisionDestroy(eurovision);
+        return EUROVISION_OUT_OF_MEMORY;
+    }
     initializeJudgeArray(removeJudges,size);
     getJudgesWhoVotedForState(eurovision,tmp,removeJudges);
     for(int i=0;i<size;i++){
@@ -267,6 +275,12 @@ static EurovisionResult addOrRemoveVote(Eurovision eurovision, int stateGiver,
     if(stateGiver < 0 || stateTaker < 0) return EUROVISION_INVALID_ID;
     State tmp1 = stateCreate(stateGiver,REMOVE_STATE,REMOVE_STATE);
     State tmp2 = stateCreate(stateTaker,REMOVE_STATE,REMOVE_STATE);
+    if (tmp1==NULL || tmp2==NULL) {
+        stateDestroy(tmp1);
+        stateDestroy(tmp2);
+        eurovisionDestroy(eurovision);
+        return EUROVISION_OUT_OF_MEMORY;
+    }
     if(!setIsIn(eurovision->states,tmp1) || !setIsIn(eurovision->states,tmp2)){
         stateDestroy(tmp1);
         stateDestroy(tmp2);
@@ -359,6 +373,8 @@ List eurovisionRunContest(Eurovision eurovision, int audiencePercent) {
     int* stateIds=malloc(sizeof(int)*numOfStates);
     char** stateNames=malloc(sizeof(char*)*numOfStates);
     if (stateIds==NULL || stateNames==NULL){
+        free(stateIds);
+        free(stateNames);
         eurovisionDestroy(eurovision);
         return NULL;
     }
@@ -376,7 +392,10 @@ List eurovisionRunContest(Eurovision eurovision, int audiencePercent) {
     }
     // Create a sorted set of all the states. The set is sorted by the final score
     Set finalScores=setCreate(copyStateScore,freeStateScore,compareStateScores);
-    if (finalScores==NULL) return NULL;
+    if (finalScores==NULL) {
+        eurovisionDestroy(eurovision);
+        return NULL;
+    }
     double averageOfStateScores=0,averageOfJudgeScores=0;
     for (i=0; i<numOfStates; i++) {
         averageOfStateScores=getAverageOfStateScores(eurovision->states,stateIds[i]);
@@ -479,6 +498,11 @@ List eurovisionRunGetFriendlyStates(Eurovision eurovision){
     int topVoteId1=0, topVoteId2=0;
     // Creating a set to store the frendly states and sort them by state1 name (alphabetical order)
     Set friendlyStatesSet=setCreate(copyFriendlyStates,freeFriendlyStates,compareFriendlyStates);
+    if (friendlyStatesSet==NULL) {
+        eurovisionDestroy(eurovision);
+        setDestroy(tmp);
+        return NULL;
+    }
     // Gets the top voted state (stateIterator) for each state and sees if the top voted state voted (at first place) for stateIterator.
     SET_FOREACH(State ,stateIterator,tmp){
         int *topVoteId1Array,*topVoteId2Array;
@@ -490,6 +514,10 @@ List eurovisionRunGetFriendlyStates(Eurovision eurovision){
             topVoteId2=topVoteId2Array[0];
             if (topVoteId2>=0 && topVoteId1==stateGetId(stateTmp) && topVoteId2==stateGetId(stateIterator)) {
                 FriendlyStates friendlyStatesTmp=friendlyStatesCreate(stateGetName(stateIterator),stateGetName(stateTmp));
+                if (friendlyStatesTmp==NULL) {
+                    eurovisionDestroy(eurovision);
+                    return NULL;
+                }
                 setAdd(friendlyStatesSet,friendlyStatesTmp);
                 friendlyStatesDestroy(friendlyStatesTmp);
             }
