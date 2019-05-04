@@ -71,7 +71,7 @@ Node nodeCreate(MapKeyElement key,
  */
 NodeResult nodeDestroy(Node head);
 /**
- * Copies a node and all its "nexts"
+ * Copies a node and all its "nexts".
  */
 Node nodeCopy(Node node);
 /**
