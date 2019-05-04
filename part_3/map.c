@@ -44,7 +44,8 @@ Map mapCreate(copyMapDataElements copyDataElement,
     ptr->compareKeys = compareKeyElements;
     return ptr;
 }
-
+// Creates the map head its the first item in the map.
+// The next "real" item will be added to its next field.
 static Node creatHead(copyMapDataElements copyDataElement,
                       copyMapKeyElements copyKeyElement,
                       freeMapDataElements freeDataElement,
