@@ -3,8 +3,10 @@
 
 #include "map.h"
 
+/** Type for defining the Node struct */
 typedef struct Node_t *Node;
 
+/** Type used for returning error codes from Node functions */
 typedef enum {
     NODE_SUCCESS=0,
     NODE_OUT_OF_MEMORY,

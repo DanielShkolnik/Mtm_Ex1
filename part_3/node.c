@@ -107,6 +107,12 @@ NodeResult nodeRemove(Node node ,MapKeyElement key) {
     return NODE_SUCCESS;
 }
 
+/**
+ * freeNodeHead frees the first node key, data and the node pointer by the dedicated functions
+ * for freeing these elements.
+ * @param node = pointer of the node to free.
+ * @return NODE_SUCCESS in case of successful free
+ */
 static NodeResult freeNodeHead (Node node) {
     free(node->key);
     free(node->data);
@@ -114,6 +120,13 @@ static NodeResult freeNodeHead (Node node) {
     return NODE_SUCCESS;
 }
 
+/**
+ * freeNode frees the other nodes (except the first) key, data and the node pointer by the dedicated functions
+ * for freeing these elements.
+ * @param node = pointer of the node to free.
+ * @return NODE_SUCCESS in case of successful free
+ * @return
+ */
 static NodeResult freeNode (Node node){
     node->freeData(node->data);
     node->freeKey(node->key);
