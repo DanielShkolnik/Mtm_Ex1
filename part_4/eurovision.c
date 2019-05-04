@@ -288,6 +288,9 @@ static EurovisionResult addOrRemoveVote(Eurovision eurovision, int stateGiver,
 static double getAverageOfStateScores(Set states,int stateId){
     int sum = 0;
     int numberOfStates = setGetSize(states);
+    if(numberOfStates<2){
+        return 0;
+    }
     SET_FOREACH(State,stateIterator,states){
         int* votes = stateGetVotes(stateIterator);
         for(int i=0;i<STATE_NUMBER_OF_VOTES;i++){
@@ -304,6 +307,9 @@ static double getAverageOfStateScores(Set states,int stateId){
 static double getAverageOfJudgeScore(Set judges, int stateId){
     int sum = 0;
     int numberOfJudges = setGetSize(judges);
+    if(numberOfJudges==0){
+        return 0;
+    }
     SET_FOREACH(Judge,judgeIterator,judges){
         int* votes = judgeGetVotes(judgeIterator);
         for(int i=0;i<JUDGE_NUMBER_OF_VOTES;i++){
