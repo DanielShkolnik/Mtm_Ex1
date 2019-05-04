@@ -286,7 +286,11 @@ static EurovisionResult addOrRemoveVote(Eurovision eurovision, int stateGiver,
         stateDestroy(tmp2);
         return EUROVISION_STATE_NOT_EXIST;
     }
-    if(stateGiver==stateTaker) return EUROVISION_SAME_STATE;
+    if(stateGiver==stateTaker) {
+        stateDestroy(tmp1);
+        stateDestroy(tmp2);
+        return EUROVISION_SAME_STATE;
+    }
     SET_FOREACH(State,state,eurovision->states){
         if(stateGetId(state)==stateGiver){
             stateAddOrRemoveVote(state,stateTaker,choice);
@@ -368,7 +372,7 @@ static void freeFinalistNames(ListElement stateScore) {
 
 
 List eurovisionRunContest(Eurovision eurovision, int audiencePercent) {
-    if (audiencePercent<0 || audiencePercent>PERCENTAGE || eurovision==NULL) return NULL;
+    if (audiencePercent<1 || audiencePercent>PERCENTAGE || eurovision==NULL) return NULL;
     int numOfStates=setGetSize(eurovision->states);
     int* stateIds=malloc(sizeof(int)*numOfStates);
     char** stateNames=malloc(sizeof(char*)*numOfStates);
